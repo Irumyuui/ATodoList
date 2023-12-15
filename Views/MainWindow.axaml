@@ -1,0 +1,304 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ATodoList.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:modles="using:ATodoList.Models"
+		xmlns:views="using:ATodoList.Views"
+        x:Class="ATodoList.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ATodoList"
+        Width="800"
+        Height="600"
+        TransparencyLevelHint="AcrylicBlur"
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        WindowStartupLocation="CenterScreen"
+        >
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Window.Resources>
+		<views:TextLineCaseConverter x:Key="TextLineCaseConverter"/>
+		<views:TextColorFinishCaseConverter x:Key="TextColorFinishCaseConverter"/>
+	</Window.Resources>
+	
+	<Window.Styles>
+	<!--
+		<Style Selector="ListBox#panel ListBoxItem > ContentPresenter">
+			<Setter Property="Background" Value="Transparent"/>
+			<Setter Property="IsHitTestVisible" Value=""/> 
+		</Style>
+	
+		-->
+		
+	</Window.Styles>
+
+	<Panel>
+		<!--
+            亚克力
+        -->
+		<ExperimentalAcrylicBorder IsHitTestVisible="False">
+			<ExperimentalAcrylicBorder.Material>
+				<ExperimentalAcrylicMaterial
+                    BackgroundSource="Digger"
+                    TintColor="Black"
+                    TintOpacity="0.9"
+                    MaterialOpacity="0.75" />
+			</ExperimentalAcrylicBorder.Material>
+		</ExperimentalAcrylicBorder>
+
+		<Grid ColumnDefinitions="*, 1, 3*">
+
+			<!-- 左边 -->
+			<DockPanel Grid.Column="0"
+                       Margin="30">
+				<!-- 显示信息 -->
+				<StackPanel DockPanel.Dock="Top"
+                            Margin="0 5">
+					<TextBlock HorizontalAlignment="Center">
+                        <PathIcon Data="{StaticResource preview_link_regular}"/> ToDo
+                    </TextBlock>
+				</StackPanel>
+
+				<!-- 添加集合 
+                <Button DockPanel.Dock="Bottom"
+                        HorizontalAlignment="Stretch"
+                        Margin="0"
+                        Content="添加列表"
+                        ToolTip.Tip="添加列表..."
+						ToolTip.ShowDelay="3"
+						ToolTip.Placement="Pointer"
+                        />
+                -->
+
+				<!-- 添加集合 -->
+				<Grid DockPanel.Dock="Bottom"
+					  ColumnDefinitions="*,3*"
+					  RowDefinitions="*">
+					<RepeatButton Grid.Column="0"
+							Margin="2 0"
+						    Classes="Primary"
+						    Theme="{DynamicResource SolidButton}"
+						    Click="CommitGroupNmaeButton_CommitClick"
+						    x:Name="CommitGroupNameButton">
+						<PathIcon Data="{StaticResource arrow_curve_up_right_regular}"
+								  Foreground="Red"/>
+					</RepeatButton>
+					<TextBox Grid.Column="1"
+							 Margin="2 0"
+							 TextWrapping="NoWrap"
+							 Name="InputGroupName"
+				             Watermark="input..."
+							 TextChanged="InputGroupTextBox_TextChanged"
+				             Text="{Binding InputGroupName}"
+							 x:Name="InputGroupNameTextBox"/>
+				</Grid>
+
+				<!-- item -->
+				<ListBox Name="GroupItemList"
+						 ItemsSource="{Binding GroupItems}"
+                         Margin="0 5"
+					     SelectionChanged="GroupItemList_SelectionChanged">
+					<ListBox.ContextMenu>
+						<ContextMenu Name="GroupItemList_ContextMenu">
+							<MenuItem Header="重命名">
+								<MenuItem.Icon>
+									<TextBlock>😊</TextBlock>
+								</MenuItem.Icon>
+								<TextBox HorizontalAlignment="Stretch"
+										 Watermark="新名字"
+										 TextWrapping="NoWrap"
+										 KeyDown="GroupItemList_ContextMenu_TextBoxKeyDown_EnterSubmit"
+										 Width="100"/>
+							</MenuItem>
+							<MenuItem Header="复制"
+									  Click="Async_GroupItemList_ContextMenu_CopyMenuItem_CopyGroupName"/>
+							<MenuItem Header="删除"
+									  Click="GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup"/>
+						</ContextMenu>
+					</ListBox.ContextMenu>
+
+					<ListBox.ItemTemplate>
+						<DataTemplate x:DataType="modles:TodoGroupItem">
+							<StackPanel HorizontalAlignment="Center"
+										Orientation="Horizontal">
+								<TextBlock Text="{Binding Name}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+
+			</DockPanel>
+
+			<!-- 线-->
+			<GridSplitter Grid.Column="1"
+						  Background="WhiteSmoke"
+			              Margin="5 30"
+			              Opacity="0.4"
+			              ResizeDirection="Columns"/>
+
+			<!-- 右边 -->
+			<DockPanel Grid.Column="2"
+					   Margin="40 30">
+				<!-- 组标题 -->
+				<StackPanel DockPanel.Dock="Top"
+							Spacing="10">
+					<TextBlock Text="{Binding SelectedGroupName}"
+							   FontSize="24"
+				               Foreground="Aquamarine"/>
+					<TabControl/>
+				</StackPanel>
+
+				<!-- 添加 -->
+				<Button DockPanel.Dock="Bottom">添加Todo Item</Button>
+
+				<TreeView Margin="5">
+					<TreeViewItem IsEnabled="True">
+						<TreeViewItem.Header>
+							未完成
+						</TreeViewItem.Header>
+
+						<ListBox ItemsSource="{Binding CurrentTodoGroupYieldFinishItems}"
+								 Name="YieldFinishTodoItemListBox">
+							<ListBox.ContextMenu>
+								<ContextMenu Name="TodoGroupYieldItems_ContextMenu">
+									<MenuItem Header="复制"
+											  Click="Async_CopySelectedTodoItemTitle"/>
+									<MenuItem Header="删除"/>
+								</ContextMenu>
+							</ListBox.ContextMenu>
+							
+							<ListBox.ItemTemplate>
+								<DataTemplate x:DataType="modles:TodoItem">
+									<!-- 选项卡 -->
+									<Expander HorizontalContentAlignment="Stretch"
+										  Expanded="TodoItemListBox_Expander_Expanded">
+										<Expander.Header>
+											<DockPanel>
+												<CheckBox DockPanel.Dock="Left"
+														  IsChecked="{Binding IsFinish}">
+													<TextBlock Text="{Binding Title}"/>
+												</CheckBox>
+											</DockPanel>
+										</Expander.Header>
+
+										<!-- 详细信息 -->
+										<TabControl TabStripPlacement="Top">
+											<TabItem>
+												<TabItem.Header>Title</TabItem.Header>
+												<TextBox Text="{Binding Title}"/>
+											</TabItem>
+											<TabItem>
+												<TabItem.Header>Deadline</TabItem.Header>
+												<DatePicker SelectedDate="{Binding DeadLine}"/>
+											</TabItem>
+											<TabItem>
+												<TabItem.Header>Description</TabItem.Header>
+												<TextBox Text="{Binding Description}"></TextBox>
+											</TabItem>
+										</TabControl>
+
+									</Expander>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+					</TreeViewItem>
+
+					<TreeViewItem>
+						<TreeViewItem.Header>
+							已完成
+						</TreeViewItem.Header>
+
+						<ListBox ItemsSource="{Binding CurrentTodoGroupFinishItems}">
+							<ListBox.ContextMenu>
+								<ContextMenu Name="TodoGroupFinishItems_ContextMenu">
+									<MenuItem Header="复制"/>
+									<MenuItem Header="删除"/>
+								</ContextMenu>
+							</ListBox.ContextMenu>
+							
+							<ListBox.ItemTemplate>
+								<DataTemplate x:DataType="modles:TodoItem">
+									<!-- 选项卡 -->
+									<Expander HorizontalContentAlignment="Stretch"
+										  Expanded="TodoItemListBox_Expander_Expanded">
+										<Expander.Header>
+											<DockPanel>
+												<CheckBox DockPanel.Dock="Left"
+														  IsChecked="{Binding IsFinish}">
+													<TextBlock Text="{Binding Title}"/>
+												</CheckBox>
+											</DockPanel>
+										</Expander.Header>
+
+										<!-- 详细信息 -->
+										<TabControl TabStripPlacement="Top">
+											<TabItem>
+												<TabItem.Header>Title</TabItem.Header>
+												<TextBox Text="{Binding Title}"/>
+											</TabItem>
+											<TabItem>
+												<TabItem.Header>Deadline</TabItem.Header>
+												<DatePicker SelectedDate="{Binding DeadLine}"/>
+											</TabItem>
+											<TabItem>
+												<TabItem.Header>Description</TabItem.Header>
+												<TextBox Text="{Binding Description}"></TextBox>
+											</TabItem>
+										</TabControl>
+
+									</Expander>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+						</ListBox>
+
+
+					</TreeViewItem>
+				</TreeView>
+
+				<!--
+				<ListBox ItemsSource="{Binding CurrentTodoItems}">
+					<ListBox.ItemTemplate>
+						<DataTemplate x:DataType="modles:TodoItem">
+							<Border Classes="Hover"
+									Theme="{StaticResource CardBorder}"
+									Margin="0 2"
+									Opacity="0.95">
+                                <TextBlock Text="{Binding Title}"/>
+                            </Border>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+				</ListBox>
+					-->
+
+			</DockPanel>
+		</Grid>
+
+		<!--
+            <DockPanel>
+                <Border DockPanel.Dock="Top"
+                        IsHitTestVisible="False">
+                    <TextBlock>This is a head</TextBlock>
+                </Border>
+
+                <TabControl TabStripPlacement="Left">
+                    <TabItem Content="Hello 1" Header="Tab 1" />
+                    <TabItem Content="Hello 2" Header="Tab 2" />
+                    <TabItem Content="Hello 3" Header="Tab 3" />
+                    <TabItem
+                        Content="Hello 4"
+                        Header="Tab 4"
+                        IsEnabled="False" />
+                </TabControl>
+            </DockPanel>
+		-->
+	</Panel>
+
+</Window>
