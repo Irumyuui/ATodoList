@@ -73,12 +73,30 @@ namespace ATodoList.Views
             }
         }
 
+        private void RemoveSelectedYieldTodoItemTitle(object sender, RoutedEventArgs e)
+        {
+            var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
+
+            if (listBox?.SelectedItem is TodoItem currentTodoItem) {
+                ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+            }
+        }
+
         private async void Async_CopySelectedFinishTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
 
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
                 await AsyncSendTextToSystemClipboard(currentTodoItem.Title);
+            }
+        }
+
+        private void RemoveSelectedFinishTodoItemTitle(object sender, RoutedEventArgs e)
+        {
+            var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
+
+            if (listBox?.SelectedItem is TodoItem currentTodoItem) {
+                ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
             }
         }
 

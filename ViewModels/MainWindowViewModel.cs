@@ -3,6 +3,7 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ATodoList.ViewModels
 {
@@ -128,6 +129,13 @@ namespace ATodoList.ViewModels
         public bool AlterTodoItemInfo(int objectId, string title, DateTime? deadLine, string description, bool isFinish)
         {
             var result = Services.DatabaseService.AlterTodoItemInfo(SelectedGroupName, objectId, title, deadLine, description, isFinish);
+            ReloadTodoItemsFromCurrentSelectedGroup();
+            return result;
+        }
+
+        public bool RemoveTodoItem(int objectId)
+        {
+            var result = Services.DatabaseService.RemoveTodoItem(SelectedGroupName, objectId);
             ReloadTodoItemsFromCurrentSelectedGroup();
             return result;
         }

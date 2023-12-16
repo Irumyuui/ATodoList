@@ -179,7 +179,10 @@
 											  Click="Async_CopySelectedYieldTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
 											  ToolTip.ShowDelay="3"/>
-									<MenuItem Header="删除"/>
+									<MenuItem Header="删除"
+											  Click="RemoveSelectedYieldTodoItemTitle"
+											  ToolTip.Tip="删除选中待办事项"
+											  ToolTip.ShowDelay="3"/>
 								</ContextMenu>
 							</ListBox.ContextMenu>
 							
@@ -274,7 +277,10 @@
 											  Click="Async_CopySelectedFinishTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
 											  ToolTip.ShowDelay="3"/>
-									<MenuItem Header="删除"/>
+									<MenuItem Header="删除"
+											  Click="RemoveSelectedFinishTodoItemTitle"
+											  ToolTip.Tip="删除选中待办事项"
+											  ToolTip.ShowDelay="3"/>
 								</ContextMenu>
 							</ListBox.ContextMenu>
 							

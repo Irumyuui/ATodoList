@@ -106,5 +106,15 @@ namespace ATodoList.Services
 
             return false;
         }
+
+        public static bool RemoveTodoItem(string groupName, int objectId)
+        {
+            if (!_todoListData.TryGetValue(groupName, out var list) || !list.Any(item => item.ObjectId == objectId)) {
+                return false;
+            }
+
+            _todoListData[groupName] = list.Where(item => item.ObjectId != objectId).ToList();
+            return true;
+        }
     }
 }
