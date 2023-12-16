@@ -64,9 +64,18 @@ namespace ATodoList.Views
             }
         }
 
-        private async void Async_CopySelectedTodoItemTitle(object sender, RoutedEventArgs e)
+        private async void Async_CopySelectedYieldTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
+
+            if (listBox?.SelectedItem is TodoItem currentTodoItem) {
+                await AsyncSendTextToSystemClipboard(currentTodoItem.Title);
+            }
+        }
+
+        private async void Async_CopySelectedFinishTodoItemTitle(object sender, RoutedEventArgs e)
+        {
+            var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
 
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
                 await AsyncSendTextToSystemClipboard(currentTodoItem.Title);
@@ -156,6 +165,73 @@ namespace ATodoList.Views
             ViewModel!.RenameSelectedGroupName(newName);
 
             
+        }
+    
+        private void TodoGroupItems_SwitchTodoItemFinishStatus(object sender, RoutedEventArgs e)
+        {
+            // YieldFinishTodoItemListBox
+            if (sender is not CheckBox checkBox) {
+                return;
+            }
+
+            var listBoxItem = checkBox.FindAncestorOfType<ListBoxItem>();
+            if (listBoxItem?.DataContext is TodoItem item) {
+                ViewModel!.SwitchTodoItemFinishStatue(item);
+            }
+        }
+
+        private void TodoItemList_CommitTodoItemInfo(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button button)
+                return;
+
+            var grid = button.FindAncestorOfType<Grid>();
+            if (grid is null)
+                return;
+
+            var todoItemListBoxItem = grid.FindAncestorOfType<ListBoxItem>();
+            if (todoItemListBoxItem is null) return;
+
+            //var todoItemTitleTextBox = grid.GetControl<TextBox>("TodoItemTitle");
+            //if (todoItemTitleTextBox is null) return;
+
+            if (grid.Children[0] is not TextBox todoItemTitleTextBox)
+                return;
+
+            //var todoItemDeadLineCalendarDatePicker = grid.FindControl<CalendarDatePicker>("TodoItemDeadLine");
+            //if (todoItemDeadLineCalendarDatePicker is null) return;
+
+            if (grid.Children[1] is not CalendarDatePicker todoItemDeadLineCalendarDatePicker)
+                return;
+
+            //var todoItemDescriptionTextBox = grid.FindControl<TextBox>("TodoItemDescription");
+            //if (todoItemDescriptionTextBox is null) return;
+
+            if (grid.Children[2] is not TextBox todoItemDescriptionTextBox)
+                return;
+
+            //var prevItem = todoItemListBoxItem.DataContext;
+            //if (prevItem is null) return;
+
+            if (todoItemListBoxItem.DataContext is not TodoItem prevItem) {
+                return;
+            }
+
+            var title = todoItemTitleTextBox.Text?.Trim() ?? string.Empty;
+            //if (string.IsNullOrWhiteSpace(title)) return;
+
+            var deadLineText = todoItemDeadLineCalendarDatePicker.SelectedDate;
+
+            var description = todoItemDescriptionTextBox.Text?.Trim() ?? string.Empty;
+            //if (description is null) return;
+
+            ViewModel!.AlterTodoItemInfo(
+                    prevItem.ObjectId,
+                    title,
+                    deadLineText,
+                    description,
+                    prevItem.IsFinish
+                );
         }
     }
 

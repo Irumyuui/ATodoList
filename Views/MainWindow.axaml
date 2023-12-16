@@ -176,7 +176,9 @@
 							<ListBox.ContextMenu>
 								<ContextMenu Name="TodoGroupYieldItems_ContextMenu">
 									<MenuItem Header="复制"
-											  Click="Async_CopySelectedTodoItemTitle"/>
+											  Click="Async_CopySelectedYieldTodoItemTitle"
+											  ToolTip.Tip="复制选中待办事项标题"
+											  ToolTip.ShowDelay="3"/>
 									<MenuItem Header="删除"/>
 								</ContextMenu>
 							</ListBox.ContextMenu>
@@ -189,7 +191,9 @@
 										<Expander.Header>
 											<DockPanel>
 												<CheckBox DockPanel.Dock="Left"
-														  IsChecked="{Binding IsFinish}">
+														  IsChecked="{Binding IsFinish}"
+														  Checked="TodoGroupItems_SwitchTodoItemFinishStatus"
+														  Unchecked="TodoGroupItems_SwitchTodoItemFinishStatus">
 													<TextBlock Text="{Binding Title}"/>
 												</CheckBox>
 											</DockPanel>
@@ -199,21 +203,29 @@
 									
 										<Grid ColumnDefinitions="*"
 											  RowDefinitions="*,*,*,*">
-											<TextBox Grid.Row="0"
+											<TextBox Name="InputTitle"
+													 Grid.Row="0"
 													 Grid.Column="0"
 													 HorizontalAlignment="Stretch"
 													 VerticalAlignment="Center"
 													 Text="{Binding Title}"
 													 Watermark="标题..."
-												     TextWrapping="NoWrap"/>
+												     TextWrapping="NoWrap"
+													 ToolTip.Tip="输入标题"
+													 ToolTip.ShowDelay="3"/>
 											
-											<CalendarDatePicker Grid.Row="1"
+											<CalendarDatePicker Name="InputDeadLine"
+																Grid.Row="1"
 																Grid.Column="0"
 																HorizontalAlignment="Stretch"
 																VerticalAlignment="Center"
-																SelectedDate="{Binding DeadLine}"/>
+																IsTodayHighlighted="True"
+																SelectedDate="{Binding DeadLine}"
+																ToolTip.Tip="截止日期"
+																ToolTip.ShowDelay="3"/>
 											
-											<TextBox Grid.Row="2"
+											<TextBox Name="InputDescription"
+													 Grid.Row="2"
 													 Grid.Column="0"
 													 HorizontalAlignment="Stretch"
 													 VerticalAlignment="Stretch"
@@ -222,7 +234,9 @@
 													 Watermark="添加备注..."
 													 AcceptsReturn="True"
 													 TextWrapping="Wrap"
-													 TextAlignment="Justify"/>
+													 TextAlignment="Justify"
+													 ToolTip.Tip="备注"
+													 ToolTip.ShowDelay="3"/>
 											
 											<TextBlock/>
 											
@@ -231,7 +245,8 @@
 													HorizontalAlignment="Stretch"
 													VerticalAlignment="Stretch"
 													Classes="Success"
-													Theme="{DynamicResource SolidButton}">
+													Theme="{DynamicResource SolidButton}"
+													Click="TodoItemList_CommitTodoItemInfo">
 												提交
 											</Button>
 										</Grid>
@@ -251,10 +266,14 @@
 							</StackPanel>
 						</TreeViewItem.Header>
 
-						<ListBox ItemsSource="{Binding CurrentTodoGroupFinishItems}">
+						<ListBox ItemsSource="{Binding CurrentTodoGroupFinishItems}"
+								 Name="FinishedTodoItemListBox">
 							<ListBox.ContextMenu>
 								<ContextMenu Name="TodoGroupFinishItems_ContextMenu">
-									<MenuItem Header="复制"/>
+									<MenuItem Header="复制"
+											  Click="Async_CopySelectedFinishTodoItemTitle"
+											  ToolTip.Tip="复制选中待办事项标题"
+											  ToolTip.ShowDelay="3"/>
 									<MenuItem Header="删除"/>
 								</ContextMenu>
 							</ListBox.ContextMenu>
@@ -267,7 +286,9 @@
 										<Expander.Header>
 											<DockPanel>
 												<CheckBox DockPanel.Dock="Left"
-														  IsChecked="{Binding IsFinish}">
+														  IsChecked="{Binding IsFinish}"
+														  Checked="TodoGroupItems_SwitchTodoItemFinishStatus"
+														  Unchecked="TodoGroupItems_SwitchTodoItemFinishStatus">
 													<TextBlock Text="{Binding Title}"/>
 												</CheckBox>
 											</DockPanel>
@@ -276,21 +297,29 @@
 										<!-- 详细信息 -->
 										<Grid ColumnDefinitions="*"
 											  RowDefinitions="*,*,*,*">
-											<TextBox Grid.Row="0"
+											<TextBox Name="InputTitle"
+													 Grid.Row="0"
 													 Grid.Column="0"
 													 HorizontalAlignment="Stretch"
 													 VerticalAlignment="Center"
 													 Text="{Binding Title}"
 													 Watermark="标题..."
-												     TextWrapping="NoWrap"/>
+												     TextWrapping="NoWrap"
+													 ToolTip.Tip="输入标题"
+													 ToolTip.ShowDelay="3"/>
 											
-											<CalendarDatePicker Grid.Row="1"
+											<CalendarDatePicker Name="InputDeadLine"
+																Grid.Row="1"
 																Grid.Column="0"
 																HorizontalAlignment="Stretch"
 																VerticalAlignment="Center"
-																SelectedDate="{Binding DeadLine}"/>
+																IsTodayHighlighted="True"
+																SelectedDate="{Binding DeadLine}"
+																ToolTip.Tip="截止日期"
+																ToolTip.ShowDelay="3"/>
 											
-											<TextBox Grid.Row="2"
+											<TextBox Name="InputDescription"
+													 Grid.Row="2"
 													 Grid.Column="0"
 													 HorizontalAlignment="Stretch"
 													 VerticalAlignment="Stretch"
@@ -299,7 +328,9 @@
 													 Watermark="添加备注..."
 													 AcceptsReturn="True"
 													 TextWrapping="Wrap"
-													 TextAlignment="Justify"/>
+													 TextAlignment="Justify"
+													 ToolTip.Tip="备注"
+													 ToolTip.ShowDelay="3"/>
 											
 											<TextBlock/>
 											
@@ -308,8 +339,9 @@
 													HorizontalAlignment="Stretch"
 													VerticalAlignment="Stretch"
 													Classes="Success"
-													Theme="{DynamicResource SolidButton}">
-													提交
+													Theme="{DynamicResource SolidButton}"
+													Click="TodoItemList_CommitTodoItemInfo">
+												提交
 											</Button>
 										</Grid>
 

@@ -1,5 +1,6 @@
 ﻿using ATodoList.Models;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -110,6 +111,25 @@ namespace ATodoList.ViewModels
             GroupListSelectIndex = -1;
 
             return true;
+        }
+
+        public bool SwitchTodoItemFinishStatue(TodoItem todoItem)
+        {
+            var result = Services.DatabaseService.SwitchTodoItemFinishStatue(SelectedGroupName, todoItem);
+        
+            if (result) {
+                ReloadTodoItemsFromCurrentSelectedGroup();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool AlterTodoItemInfo(int objectId, string title, DateTime? deadLine, string description, bool isFinish)
+        {
+            var result = Services.DatabaseService.AlterTodoItemInfo(SelectedGroupName, objectId, title, deadLine, description, isFinish);
+            ReloadTodoItemsFromCurrentSelectedGroup();
+            return result;
         }
     }
 }
