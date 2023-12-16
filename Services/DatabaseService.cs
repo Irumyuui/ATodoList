@@ -12,10 +12,10 @@ namespace ATodoList.Services
     {
         private static Dictionary<string, List<TodoItem>> _todoListData = new() {
             {"全部任务",[
-                new TodoItem(1, "123", new DateTimeOffset(new DateTime(114, 5, 14))),
-                new TodoItem(1, "1233", new DateTimeOffset(new DateTime(114, 5, 14)), "No", true),
-                new TodoItem(1, "1243", new DateTimeOffset(new DateTime(114, 5, 14))),
-                new TodoItem(1, "1223", new DateTimeOffset(new DateTime(114, 5, 14))),
+                new TodoItem(1, "123", new DateTime(114, 5, 14)),
+                new TodoItem(1, "1233", new DateTime(114, 5, 14), "No", true),
+                new TodoItem(1, "1243", new DateTime(114, 5, 14), "NO"),
+                new TodoItem(1, "1223", new DateTime(114, 5, 14)),
                 ]},
             {"作业", []},
             {"任务", []}

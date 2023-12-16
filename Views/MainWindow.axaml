@@ -160,9 +160,13 @@
 				<Button DockPanel.Dock="Bottom">添加Todo Item</Button>
 
 				<TreeView Margin="5">
+					<!-- 未完成组 -->
 					<TreeViewItem IsEnabled="True">
 						<TreeViewItem.Header>
-							未完成
+							<StackPanel Orientation="Horizontal">
+								<TextBlock Text="未完成："/>
+								<TextBlock Text="{Binding CurrentTodoGroupYieldFinishItems.Length}"/>
+							</StackPanel>
 						</TreeViewItem.Header>
 
 						<ListBox ItemsSource="{Binding CurrentTodoGroupYieldFinishItems}"
@@ -190,20 +194,45 @@
 										</Expander.Header>
 
 										<!-- 详细信息 -->
-										<TabControl TabStripPlacement="Top">
-											<TabItem>
-												<TabItem.Header>Title</TabItem.Header>
-												<TextBox Text="{Binding Title}"/>
-											</TabItem>
-											<TabItem>
-												<TabItem.Header>Deadline</TabItem.Header>
-												<DatePicker SelectedDate="{Binding DeadLine}"/>
-											</TabItem>
-											<TabItem>
-												<TabItem.Header>Description</TabItem.Header>
-												<TextBox Text="{Binding Description}"></TextBox>
-											</TabItem>
-										</TabControl>
+									
+										<Grid ColumnDefinitions="*"
+											  RowDefinitions="*,*,*,*">
+											<TextBox Grid.Row="0"
+													 Grid.Column="0"
+													 HorizontalAlignment="Stretch"
+													 VerticalAlignment="Center"
+													 Text="{Binding Title}"
+													 Watermark="标题..."
+												     TextWrapping="NoWrap"/>
+											
+											<CalendarDatePicker Grid.Row="1"
+																Grid.Column="0"
+																HorizontalAlignment="Stretch"
+																VerticalAlignment="Center"
+																SelectedDate="{Binding DeadLine}"/>
+											
+											<TextBox Grid.Row="2"
+													 Grid.Column="0"
+													 HorizontalAlignment="Stretch"
+													 VerticalAlignment="Stretch"
+													 Height="100"
+												     Text="{Binding Description}"
+													 Watermark="添加备注..."
+													 AcceptsReturn="True"
+													 TextWrapping="Wrap"
+													 TextAlignment="Justify"/>
+											
+											<TextBlock/>
+											
+											<Button Grid.Row="3"
+													Grid.Column="0"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Classes="Success"
+													Theme="{DynamicResource SolidButton}">
+												提交
+											</Button>
+										</Grid>
 
 									</Expander>
 								</DataTemplate>
@@ -211,9 +240,13 @@
 						</ListBox>
 					</TreeViewItem>
 
+					<!-- 已完成组 -->
 					<TreeViewItem>
 						<TreeViewItem.Header>
-							已完成
+							<StackPanel Orientation="Horizontal">
+								<TextBlock>已完成：</TextBlock>
+								<TextBlock Text="{Binding CurrentTodoGroupFinishItems.Length}"/>
+							</StackPanel>
 						</TreeViewItem.Header>
 
 						<ListBox ItemsSource="{Binding CurrentTodoGroupFinishItems}">
@@ -239,20 +272,44 @@
 										</Expander.Header>
 
 										<!-- 详细信息 -->
-										<TabControl TabStripPlacement="Top">
-											<TabItem>
-												<TabItem.Header>Title</TabItem.Header>
-												<TextBox Text="{Binding Title}"/>
-											</TabItem>
-											<TabItem>
-												<TabItem.Header>Deadline</TabItem.Header>
-												<DatePicker SelectedDate="{Binding DeadLine}"/>
-											</TabItem>
-											<TabItem>
-												<TabItem.Header>Description</TabItem.Header>
-												<TextBox Text="{Binding Description}"></TextBox>
-											</TabItem>
-										</TabControl>
+										<Grid ColumnDefinitions="*"
+											  RowDefinitions="*,*,*,*">
+											<TextBox Grid.Row="0"
+													 Grid.Column="0"
+													 HorizontalAlignment="Stretch"
+													 VerticalAlignment="Center"
+													 Text="{Binding Title}"
+													 Watermark="标题..."
+												     TextWrapping="NoWrap"/>
+											
+											<CalendarDatePicker Grid.Row="1"
+																Grid.Column="0"
+																HorizontalAlignment="Stretch"
+																VerticalAlignment="Center"
+																SelectedDate="{Binding DeadLine}"/>
+											
+											<TextBox Grid.Row="2"
+													 Grid.Column="0"
+													 HorizontalAlignment="Stretch"
+													 VerticalAlignment="Stretch"
+													 Height="100"
+												     Text="{Binding Description}"
+													 Watermark="添加备注..."
+													 AcceptsReturn="True"
+													 TextWrapping="Wrap"
+													 TextAlignment="Justify"/>
+											
+											<TextBlock/>
+											
+											<Button Grid.Row="3"
+													Grid.Column="0"
+													HorizontalAlignment="Stretch"
+													VerticalAlignment="Stretch"
+													Classes="Success"
+													Theme="{DynamicResource SolidButton}">
+													提交
+											</Button>
+										</Grid>
 
 									</Expander>
 								</DataTemplate>
@@ -263,42 +320,9 @@
 					</TreeViewItem>
 				</TreeView>
 
-				<!--
-				<ListBox ItemsSource="{Binding CurrentTodoItems}">
-					<ListBox.ItemTemplate>
-						<DataTemplate x:DataType="modles:TodoItem">
-							<Border Classes="Hover"
-									Theme="{StaticResource CardBorder}"
-									Margin="0 2"
-									Opacity="0.95">
-                                <TextBlock Text="{Binding Title}"/>
-                            </Border>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-					-->
-
 			</DockPanel>
 		</Grid>
 
-		<!--
-            <DockPanel>
-                <Border DockPanel.Dock="Top"
-                        IsHitTestVisible="False">
-                    <TextBlock>This is a head</TextBlock>
-                </Border>
-
-                <TabControl TabStripPlacement="Left">
-                    <TabItem Content="Hello 1" Header="Tab 1" />
-                    <TabItem Content="Hello 2" Header="Tab 2" />
-                    <TabItem Content="Hello 3" Header="Tab 3" />
-                    <TabItem
-                        Content="Hello 4"
-                        Header="Tab 4"
-                        IsEnabled="False" />
-                </TabControl>
-            </DockPanel>
-		-->
 	</Panel>
 
 </Window>

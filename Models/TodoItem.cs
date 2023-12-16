@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace ATodoList.Models
 {
-    public class TodoItem(int objectId, string title, DateTimeOffset deadLine, string description = "", bool isFinish = false)
+    public class TodoItem(int objectId, string title, DateTime deadLine, string description = "", bool isFinish = false)
     {
         public int ObjectId { get; } = objectId;
 
         public string Title { get; } = title;
         
-        public DateTimeOffset DeadLine { get; } = deadLine;
+        public DateTime DeadLine { get; } = deadLine;
         
         public string Description { get; } = description;
         
