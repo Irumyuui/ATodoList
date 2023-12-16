@@ -139,5 +139,16 @@ namespace ATodoList.ViewModels
             ReloadTodoItemsFromCurrentSelectedGroup();
             return result;
         }
+
+        public bool AddNewTodoItem(string? newItemTitle)
+        {
+            if (string.IsNullOrWhiteSpace(newItemTitle)) {
+                return false;
+            }
+
+            var result = Services.DatabaseService.AddNewTodoItem(SelectedGroupName, newItemTitle.Trim());
+            ReloadTodoItemsFromCurrentSelectedGroup();
+            return result;
+        }
     }
 }

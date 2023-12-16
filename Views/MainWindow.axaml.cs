@@ -7,6 +7,7 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using DynamicData.Aggregation;
@@ -210,38 +211,24 @@ namespace ATodoList.Views
             var todoItemListBoxItem = grid.FindAncestorOfType<ListBoxItem>();
             if (todoItemListBoxItem is null) return;
 
-            //var todoItemTitleTextBox = grid.GetControl<TextBox>("TodoItemTitle");
-            //if (todoItemTitleTextBox is null) return;
-
             if (grid.Children[0] is not TextBox todoItemTitleTextBox)
                 return;
-
-            //var todoItemDeadLineCalendarDatePicker = grid.FindControl<CalendarDatePicker>("TodoItemDeadLine");
-            //if (todoItemDeadLineCalendarDatePicker is null) return;
 
             if (grid.Children[1] is not CalendarDatePicker todoItemDeadLineCalendarDatePicker)
                 return;
 
-            //var todoItemDescriptionTextBox = grid.FindControl<TextBox>("TodoItemDescription");
-            //if (todoItemDescriptionTextBox is null) return;
-
             if (grid.Children[2] is not TextBox todoItemDescriptionTextBox)
                 return;
-
-            //var prevItem = todoItemListBoxItem.DataContext;
-            //if (prevItem is null) return;
 
             if (todoItemListBoxItem.DataContext is not TodoItem prevItem) {
                 return;
             }
 
             var title = todoItemTitleTextBox.Text?.Trim() ?? string.Empty;
-            //if (string.IsNullOrWhiteSpace(title)) return;
 
             var deadLineText = todoItemDeadLineCalendarDatePicker.SelectedDate;
 
             var description = todoItemDescriptionTextBox.Text?.Trim() ?? string.Empty;
-            //if (description is null) return;
 
             ViewModel!.AlterTodoItemInfo(
                     prevItem.ObjectId,
@@ -250,6 +237,30 @@ namespace ATodoList.Views
                     description,
                     prevItem.IsFinish
                 );
+        }
+
+        private void AddTodoItemList_InputTextBox_PressEnterCommit(object sender, KeyEventArgs e)
+        {
+            if (e.Key is not Key.Enter)
+                return;
+
+            if (sender is not TextBox textBox)
+                return;
+
+            var newItemTitle = textBox.Text;
+            textBox.Text = string.Empty;
+
+            if (ViewModel!.AddNewTodoItem(newItemTitle)) {
+                textBox.BorderBrush = new SolidColorBrush(Colors.Aquamarine);
+            } else {
+                textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void TodoItemList_TreeViewItem_IgnorePressEnter(object sender, KeyEventArgs e) {
+            if (e.Key is Key.Enter) {
+                e.Handled = true;
+            }
         }
     }
 

@@ -13,14 +13,16 @@ namespace ATodoList.Services
     {
         private static Dictionary<string, List<TodoItem>> _todoListData = new() {
             {"全部任务",[
-                new TodoItem(1, "123", new DateTime(114, 5, 14)),
-                new TodoItem(2, "1233", new DateTime(114, 5, 14), "No", true),
-                new TodoItem(3, "1243", new DateTime(114, 5, 14), "NO"),
-                new TodoItem(4, "1223"),
+                new TodoItem(0, "123", new DateTime(114, 5, 14)),
+                new TodoItem(1, "1233", new DateTime(114, 5, 14), "No", true),
+                new TodoItem(2, "1243", new DateTime(114, 5, 14), "NO"),
+                new TodoItem(3, "1223"),
                 ]},
             {"作业", []},
             {"任务", []}
         };
+
+        private static int _totItemCount = 4;
 
         public static TodoGroupItem[] LoadTodoGroupItems()
         {
@@ -114,6 +116,15 @@ namespace ATodoList.Services
             }
 
             _todoListData[groupName] = list.Where(item => item.ObjectId != objectId).ToList();
+            return true;
+        }
+
+        public static bool AddNewTodoItem(string currentGroup, string title, DateTime? deadLine = null, string description = "", bool isFinish = false)
+        {
+            if (!_todoListData.TryGetValue(currentGroup, out var list)) {
+                return false;
+            }
+            list.Add(new TodoItem(_totItemCount ++, title, deadLine, description, isFinish));
             return true;
         }
     }

@@ -159,7 +159,14 @@
 				</StackPanel>
 
 				<!-- 添加 -->
-				<Button DockPanel.Dock="Bottom">添加Todo Item</Button>
+				<TextBox DockPanel.Dock="Bottom"
+						 BorderBrush="Aquamarine"
+						 Watermark="添加新待办事项..."
+						 ToolTip.Tip="输入新待办事项标题"
+						 ToolTip.ShowDelay="3"
+						 KeyDown="AddTodoItemList_InputTextBox_PressEnterCommit">
+					
+				</TextBox>
 
 				<TreeView Margin="5">
 					<!-- 未完成组 -->
