@@ -163,7 +163,7 @@
 
 				<TreeView Margin="5">
 					<!-- 未完成组 -->
-					<TreeViewItem IsEnabled="True">
+					<TreeViewItem IsExpanded="True">
 						<TreeViewItem.Header>
 							<StackPanel Orientation="Horizontal">
 								<TextBlock Text="未完成："/>
