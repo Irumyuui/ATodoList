@@ -66,20 +66,24 @@ namespace ATodoList.ViewModels
             set => this.RaiseAndSetIfChanged(ref _selectedGroupName, value);
         }
 
-        public void AddGroup(string groupName) => AddGroup(groupName, []);
+        public bool AddGroup(string groupName) => AddGroup(groupName, []);
 
-        public void AddGroup(string groupName, IEnumerable<TodoItem> todoItems)
+        public bool AddGroup(string groupName, IEnumerable<TodoItem> todoItems)
         {
-            Services.DatabaseService.AddGroup(groupName, todoItems);
+            if (!Services.DatabaseService.AddGroup(groupName, todoItems)) {
+                return false;
+            }
 
             GroupItems = Services.DatabaseService.LoadTodoGroupItems();
             InputGroupName = string.Empty;
+
+            return true;
         }
 
-        public void RemoveSelectedGroup(string groupName)
+        public bool RemoveSelectedGroup(string groupName)
         {
             if (!Services.DatabaseService.RemoveGroup(groupName)) {
-                return;
+                return false;
             }
 
             GroupListSelectIndex = -1;  // -1 means not selected
@@ -87,6 +91,8 @@ namespace ATodoList.ViewModels
             CurrentTodoGroupFinishItems = [];
             CurrentTodoGroupYieldFinishItems = [];
             SelectedGroupName = string.Empty;
+
+            return true;
         }
 
         public void LoadTodoItems(string groupName)

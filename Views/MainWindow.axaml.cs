@@ -3,6 +3,7 @@ using ATodoList.ViewModels;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Input;
@@ -23,6 +24,9 @@ namespace ATodoList.Views
 {
     public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
     {
+        /// <summary>
+        /// 消息提示管理
+        /// </summary>
         private WindowNotificationManager? _manager;
 
         public MainWindow()
@@ -31,17 +35,32 @@ namespace ATodoList.Views
             //_manager = new WindowNotificationManager(this) { MaxItems = 3 };
         }
 
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        /// <summary>
+        /// 消息提示
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnAttachedToVisualTree(e);
-            var topLevel = TopLevel.GetTopLevel(this);
-            _manager = new WindowNotificationManager(topLevel) { MaxItems = 3 };
+            base.OnApplyTemplate(e);
+            _manager = new WindowNotificationManager(this) {
+                MaxItems = 3
+            };
+            _manager.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
+            _manager.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right;
         }
 
-        private void InfoButton_OnClick(object? sender, RoutedEventArgs e)
+        /// <summary>
+        /// 提示消息
+        /// </summary>
+        /// <param name="title">消息标题</param>
+        /// <param name="message">消息内容</param>
+        /// <param name="type">消息类型</param>
+        private void ShowNotification(string? title, string? message, NotificationType type)
         {
-            _manager?.Show(new Notification("123", "This is message", NotificationType.Information));
+            _manager?.Show(new Notification(title, message, type));
         }
+
+        private void ShowNotification(string? message, NotificationType type) => ShowNotification(type.ToString(), message, type);
 
         private void GroupItemList_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
@@ -55,6 +74,7 @@ namespace ATodoList.Views
         {
             var selectGroupName = ViewModel!.SelectedGroupName;
             await AsyncSendTextToSystemClipboard(selectGroupName);
+            ShowNotification("待办事项组名已复制", NotificationType.Information);
         }
 
         private async Task AsyncSendTextToSystemClipboard(string text)
@@ -71,6 +91,7 @@ namespace ATodoList.Views
 
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
                 await AsyncSendTextToSystemClipboard(currentTodoItem.Title);
+                ShowNotification("待办事项标题已复制", NotificationType.Information);
             }
         }
 
@@ -78,8 +99,16 @@ namespace ATodoList.Views
         {
             var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
 
+            bool result = false;
+
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
-                ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+                result = ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+            }
+
+            if (result) {
+                ShowNotification("选中待办事项已删除", NotificationType.Success);
+            } else {
+                ShowNotification("选中待办事项未删除", NotificationType.Error);
             }
         }
 
@@ -89,6 +118,7 @@ namespace ATodoList.Views
 
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
                 await AsyncSendTextToSystemClipboard(currentTodoItem.Title);
+                ShowNotification("待办事项标题已复制", NotificationType.Information);
             }
         }
 
@@ -96,14 +126,26 @@ namespace ATodoList.Views
         {
             var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
 
+            bool result = false;
+
             if (listBox?.SelectedItem is TodoItem currentTodoItem) {
-                ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+                result = ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+            }
+
+            if (result) {
+                ShowNotification("选中待办事项已删除", NotificationType.Success);
+            } else {
+                ShowNotification("选中待办事项未删除", NotificationType.Error);
             }
         }
 
         private void GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup(object sender, RoutedEventArgs e)
         {
-            ViewModel!.RemoveSelectedGroup(ViewModel!.SelectedGroupName);
+            if (ViewModel!.RemoveSelectedGroup(ViewModel!.SelectedGroupName)) {
+                ShowNotification("选中待办事项组已删除", NotificationType.Success);
+            } else {
+                ShowNotification("选中待办事项组未删除", NotificationType.Error);
+            }
         }
 
         private void InputGroupTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -129,7 +171,11 @@ namespace ATodoList.Views
                 return;
 
             InputGroupName.Text = string.Empty;
-            ViewModel!.AddGroup(result);
+            if (ViewModel!.AddGroup(result)) {
+                ShowNotification("待办事项组添加成功", NotificationType.Success);
+            } else {
+                ShowNotification("待办事项组添加失败", NotificationType.Error);
+            }
         }
 
         private void CommitGroupNmaeButton_CommitClick(object sender, RoutedEventArgs e)
@@ -139,7 +185,11 @@ namespace ATodoList.Views
                 return;
 
             InputGroupName.Text = string.Empty;
-            ViewModel!.AddGroup(result);
+            if (ViewModel!.AddGroup(result)) {
+                ShowNotification("待办事项组添加成功", NotificationType.Success);
+            } else {
+                ShowNotification("待办事项组添加失败", NotificationType.Error);
+            }
         }
 
         private void TodoItemListBox_Expander_Expanded(object sender, RoutedEventArgs e)
@@ -169,6 +219,7 @@ namespace ATodoList.Views
 
             var newName = textBox.Text?.Trim();
             if (string.IsNullOrEmpty(newName) ) {
+                ShowNotification("需要输入内容", NotificationType.Warning);
                 return;
             }
 
@@ -181,9 +232,11 @@ namespace ATodoList.Views
 
             Debug.WriteLine("GroupItemList > ContextMenu");
 
-            ViewModel!.RenameSelectedGroupName(newName);
-
-            
+            if (ViewModel!.RenameSelectedGroupName(newName)) {
+                ShowNotification("待办事项组名已更改", NotificationType.Success);
+            } else {
+                ShowNotification("待办事项组名未更改", NotificationType.Error);
+            }
         }
     
         private void TodoGroupItems_SwitchTodoItemFinishStatus(object sender, RoutedEventArgs e)
@@ -194,8 +247,12 @@ namespace ATodoList.Views
             }
 
             var listBoxItem = checkBox.FindAncestorOfType<ListBoxItem>();
-            if (listBoxItem?.DataContext is TodoItem item) {
-                ViewModel!.SwitchTodoItemFinishStatue(item);
+            if (listBoxItem?.DataContext is not TodoItem item) {
+                return;
+            }
+            
+            if (ViewModel!.SwitchTodoItemFinishStatue(item)) {
+                ShowNotification($"{item.Title}{(!item.IsFinish ? "已完成" : "未完成")}", NotificationType.Information);
             }
         }
 
@@ -230,13 +287,17 @@ namespace ATodoList.Views
 
             var description = todoItemDescriptionTextBox.Text?.Trim() ?? string.Empty;
 
-            ViewModel!.AlterTodoItemInfo(
+            if (ViewModel!.AlterTodoItemInfo(
                     prevItem.ObjectId,
                     title,
                     deadLineText,
                     description,
                     prevItem.IsFinish
-                );
+                )) {
+                ShowNotification("任务更改", NotificationType.Success);
+            } else {
+                ShowNotification("任务未更改", NotificationType.Error);
+            }
         }
 
         private void AddTodoItemList_InputTextBox_PressEnterCommit(object sender, KeyEventArgs e)
@@ -251,9 +312,11 @@ namespace ATodoList.Views
             textBox.Text = string.Empty;
 
             if (ViewModel!.AddNewTodoItem(newItemTitle)) {
-                textBox.BorderBrush = new SolidColorBrush(Colors.Aquamarine);
+                //textBox.BorderBrush = new SolidColorBrush(Colors.Aquamarine);
+                ShowNotification("任务添加成功", NotificationType.Success);
             } else {
-                textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                //textBox.BorderBrush = new SolidColorBrush(Colors.Red);
+                ShowNotification("任务添加失败", NotificationType.Error);
             }
         }
 
