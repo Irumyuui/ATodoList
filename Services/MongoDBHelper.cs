@@ -109,7 +109,7 @@ namespace ATodoList.Services
             try {
                 Database.DropCollection(targetCollectionName);
             } catch (Exception e) {
-
+                Debug.WriteLine(e);
             }
 
             var userGroup = Database.GetCollection<BsonDocument>("_user_todo_group");

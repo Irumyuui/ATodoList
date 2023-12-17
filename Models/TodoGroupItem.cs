@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ATodoList.Models
 {
-    public class TodoGroupItem
+    public class TodoGroupItem(string name)
     {
-        public TodoGroupItem(string name) { Name = name; }
-
-        public string Name { get; set; }
+        public string Name { get; set; } = name;
     }
 }
