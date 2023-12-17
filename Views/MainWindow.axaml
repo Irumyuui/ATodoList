@@ -195,7 +195,17 @@
 														  IsChecked="{Binding IsFinish}"
 														  Checked="TodoGroupItems_SwitchTodoItemFinishStatus"
 														  Unchecked="TodoGroupItems_SwitchTodoItemFinishStatus">
-													<TextBlock Text="{Binding Title}"/>
+													<StackPanel>
+														<TextBlock Text="{Binding Title}"/>
+														<StackPanel Orientation="Horizontal">
+															<TextBlock Text="截止时间："
+																	   Opacity="0.8"
+																	   Foreground="WhiteSmoke"/>
+															<TextBlock Text="{Binding DeadLine}"
+																	   Opacity="0.8"
+																	   Foreground="WhiteSmoke"/>
+														</StackPanel>
+													</StackPanel>
 												</CheckBox>
 											</DockPanel>
 										</Expander.Header>
