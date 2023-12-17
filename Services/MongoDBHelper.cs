@@ -13,13 +13,13 @@ namespace ATodoList.Services;
 
 public class MongoDBHelper : IDBHelper
 {
-    private string _connectionString;
+    private readonly string _connectionString;
     
-    private string _databaseName;
+    private readonly string _databaseName;
 
-    private IMongoClient _client;
+    private readonly IMongoClient _client;
 
-    private IMongoDatabase _database;
+    private readonly IMongoDatabase _database;
 
     public MongoDBHelper(string connectionString, string databaseName)
     {

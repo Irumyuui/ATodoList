@@ -43,10 +43,10 @@ namespace ATodoList.Views
         {
             base.OnApplyTemplate(e);
             _manager = new WindowNotificationManager(this) {
-                MaxItems = 3
+                MaxItems = 3,
+                VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom,
+                HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right
             };
-            _manager.VerticalAlignment = Avalonia.Layout.VerticalAlignment.Bottom;
-            _manager.HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Right;
         }
 
         /// <summary>
@@ -194,8 +194,7 @@ namespace ATodoList.Views
 
         private void TodoItemListBox_Expander_Expanded(object sender, RoutedEventArgs e)
         {
-            var expander = sender as Expander;
-            if (expander is null)
+            if (sender is not Expander expander)
                 return;
 
             var listBoxItem = expander.FindAncestorOfType<ListBoxItem>();
