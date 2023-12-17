@@ -51,7 +51,7 @@ namespace ATodoList.Services
             var userTodoGroupCollection = Database.GetCollection<BsonDocument>("_user_todo_group");
             var mayBeHaveName = userTodoGroupCollection.Find(Builders<BsonDocument>.Filter.Eq("name", groupName)).FirstOrDefault();
             
-            if (mayBeHaveName is not null && !mayBeHaveName.TryGetValue("collectionName", out var collectionNameValue)) {
+            if (mayBeHaveName is not null && mayBeHaveName.TryGetValue("collectionName", out var collectionNameValue)) {
                 try {
                     collectionName = collectionNameValue.AsString;
                 } catch (Exception e) {
@@ -182,6 +182,52 @@ namespace ATodoList.Services
                 Debug.WriteLine(ex);
                 return false;
             }
+        }
+
+        public bool RemoveTodoItemFromGroup(string groupName, ObjectId targetObjectId)
+        {
+            if (!TryGetGroupBelongCollectionName(groupName, out var collectionName)) {
+                return false;
+            }
+
+            var collection = Database.GetCollection<BsonDocument>(collectionName);
+
+            try {
+                var result = collection.DeleteOne(
+                        Builders<BsonDocument>.Filter.Eq("_id", targetObjectId)
+                    );
+
+                return result.DeletedCount is 1;
+            } catch (Exception e) {
+                Debug.WriteLine(e);
+
+                return false;
+            }
+        }
+
+        public bool AddTodoItemIntoTargetGroup(string targetGroupName,
+                                                      string title,
+                                                      DateTime? deadLine,
+                                                      string description,
+                                                      bool isFinish)
+        {
+            if (!TryGetGroupBelongCollectionName(targetGroupName, out var collectionName)) {
+                return false;
+            }
+
+            var collection = Database.GetCollection<BsonDocument>(collectionName);
+
+            try {
+                collection.InsertOne(TodoItem.ToBsonDocumentWithoutObjectId(title, deadLine, description, isFinish));
+
+                return true;
+
+            } catch (Exception ex) {
+                Debug.WriteLine(ex);
+
+                return false;
+            }
+
         }
     }
 }

@@ -126,14 +126,14 @@ namespace ATodoList.ViewModels
             return false;
         }
 
-        public bool AlterTodoItemInfo(int objectId, string title, DateTime? deadLine, string description, bool isFinish)
+        public bool AlterTodoItemInfo(MongoDB.Bson.ObjectId objectId, string title, DateTime? deadLine, string description, bool isFinish)
         {
             var result = Services.DatabaseService.AlterTodoItemInfo(SelectedGroupName, objectId, title, deadLine, description, isFinish);
             ReloadTodoItemsFromCurrentSelectedGroup();
             return result;
         }
 
-        public bool RemoveTodoItem(int objectId)
+        public bool RemoveTodoItem(MongoDB.Bson.ObjectId objectId)
         {
             var result = Services.DatabaseService.RemoveTodoItem(SelectedGroupName, objectId);
             ReloadTodoItemsFromCurrentSelectedGroup();

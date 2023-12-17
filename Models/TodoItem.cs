@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,9 +25,21 @@ namespace ATodoList.Models
             return new BsonDocument {
                 {"_id", ObjectId },
                 {"title", Title},
-                {"deadline", DeadLine?.ToString() },
+                {"deadline", DeadLine?.ToString() ?? string.Empty},
                 {"description", Description},
                 {"isFinish", IsFinish},
+            };
+        }
+
+        public static MongoDB.Bson.BsonDocument ToBsonDocumentWithoutObjectId(
+                string title, DateTime? deadLine = null, string description = "", bool isFinish = false
+            )
+        {
+            return new BsonDocument {
+                {"title", title},
+                {"deadline", deadLine?.ToString() ?? string.Empty},
+                {"description", description},
+                {"isFinish", isFinish},
             };
         }
 
@@ -36,8 +49,14 @@ namespace ATodoList.Models
             string title = bson["title"].AsString;
 
             DateTime? deadLine = null;
-            if (bson.TryGetValue("deadline", out var deadlineValue) && DateTime.TryParse(deadlineValue.AsString, out var deadLineResult)) {
-                deadLine = deadLineResult;
+            if (bson.TryGetValue("deadline", out var deadlineValue)) {
+                try {
+                    if (DateTime.TryParse(deadlineValue.AsString, out var deadLineResult))
+                        deadLine = deadLineResult;
+                } catch (Exception e) {
+                    deadLine = null;
+                    Debug.WriteLine(e);
+                }
             }
 
             string description = bson["description"].AsString;
