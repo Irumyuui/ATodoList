@@ -67,23 +67,6 @@ namespace ATodoList.Services
 
         public TodoItem[] GetTodoItemFromGroup(string groupName)
         {
-            //var userTodoGroupCollection = Database.GetCollection<BsonDocument>("_user_todo_group");
-
-            //var mayBeHaveName = userTodoGroupCollection.Find(Builders<BsonDocument>.Filter.Eq("name", groupName))
-            //            .FirstOrDefault();
-
-            //if (mayBeHaveName is null || !mayBeHaveName.TryGetValue("collectionName", out var collectionNameValue)) {
-            //    return [];
-            //}
-
-            //string collectionName;
-            //try {
-            //    collectionName = collectionNameValue.AsString;
-            //} catch (Exception e) {
-            //    Debug.WriteLine(e);
-            //    return [];
-            //}
-
             if (!TryGetGroupBelongCollectionName(groupName, out var collectionName)) {
                 return [];
             }
