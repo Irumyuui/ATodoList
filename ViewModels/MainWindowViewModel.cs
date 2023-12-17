@@ -99,8 +99,14 @@ namespace ATodoList.ViewModels
         {
             var current = Services.DatabaseService.LoadTodoItemsFromGroup(groupName);
 
-            CurrentTodoGroupYieldFinishItems = current.Where(item => !item.IsFinish).ToArray();
-            CurrentTodoGroupFinishItems = current.Where(item => item.IsFinish).ToArray();
+            CurrentTodoGroupYieldFinishItems = current.Where(item => !item.IsFinish)
+                                                      .OrderBy(item => item.DeadLine is null)
+                                                      .ThenBy(item => item.DeadLine)
+                                                      .ToArray();
+            CurrentTodoGroupFinishItems = current.Where(item => item.IsFinish)
+                                                 .OrderBy(item => item.DeadLine is null)
+                                                 .ThenBy(item => item.DeadLine)
+                                                 .ToArray();
         }
     
         public void ReloadTodoItemsFromCurrentSelectedGroup() {
