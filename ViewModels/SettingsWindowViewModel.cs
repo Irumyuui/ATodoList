@@ -38,6 +38,6 @@ public class SettingsWindowViewModel : ViewModelBase
 
     public bool SwitchDatabase(string host, string db)
     {
-        return Services.DatabaseService.TrySetDatabaseService(host, db);
+        return Services.DatabaseService.TrySetMongoDBService(host, db);
     }
 }
