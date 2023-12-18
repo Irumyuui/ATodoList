@@ -252,7 +252,7 @@ namespace ATodoList.Views
             }
             
             if (ViewModel!.SwitchTodoItemFinishStatue(item)) {
-                ShowNotification($"{item.Title}{(!item.IsFinish ? "已完成" : "未完成")}", NotificationType.Information);
+                ShowNotification($"任务 [{item.Title}] {(!item.IsFinish ? "已完成" : "未完成")}", NotificationType.Information);
             }
         }
 

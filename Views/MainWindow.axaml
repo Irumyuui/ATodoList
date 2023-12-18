@@ -39,7 +39,17 @@
 		</Style>
 	
 		-->
+		
+		<Style Selector="TreeViewItem:selected Border">
+			<Setter Property="Background" Value="Transparent"/>
 
+		</Style>
+
+		<Style Selector="TreeViewItem:pointerover Border">
+			<Setter Property="Background" Value="Transparent"/>
+
+		</Style>
+		
 	</Window.Styles>
 
 	<Panel>
@@ -234,9 +244,7 @@
 													 VerticalAlignment="Center"
 													 Text="{Binding Title}"
 													 Watermark="标题..."
-												     TextWrapping="NoWrap"
-													 ToolTip.Tip="输入标题"
-													 ToolTip.ShowDelay="3"/>
+												     TextWrapping="NoWrap"/>
 
 											<CalendarDatePicker Name="InputDeadLine"
 																Grid.Row="1"
@@ -244,9 +252,7 @@
 																HorizontalAlignment="Stretch"
 																VerticalAlignment="Center"
 																IsTodayHighlighted="True"
-																SelectedDate="{Binding DeadLine}"
-																ToolTip.Tip="截止日期"
-																ToolTip.ShowDelay="3"/>
+																SelectedDate="{Binding DeadLine}"/>
 
 											<TextBox Name="InputDescription"
 													 Grid.Row="2"
@@ -258,9 +264,7 @@
 													 Watermark="添加备注..."
 													 AcceptsReturn="True"
 													 TextWrapping="Wrap"
-													 TextAlignment="Justify"
-													 ToolTip.Tip="备注"
-													 ToolTip.ShowDelay="3"/>
+													 TextAlignment="Justify"/>
 
 											<TextBlock/>
 
@@ -343,9 +347,7 @@
 													 VerticalAlignment="Center"
 													 Text="{Binding Title}"
 													 Watermark="标题..."
-												     TextWrapping="NoWrap"
-													 ToolTip.Tip="输入标题"
-													 ToolTip.ShowDelay="3"/>
+												     TextWrapping="NoWrap"/>
 
 											<CalendarDatePicker Name="InputDeadLine"
 																Grid.Row="1"
@@ -353,9 +355,7 @@
 																HorizontalAlignment="Stretch"
 																VerticalAlignment="Center"
 																IsTodayHighlighted="True"
-																SelectedDate="{Binding DeadLine}"
-																ToolTip.Tip="截止日期"
-																ToolTip.ShowDelay="3"/>
+																SelectedDate="{Binding DeadLine}"/>
 
 											<TextBox Name="InputDescription"
 													 Grid.Row="2"
@@ -367,9 +367,7 @@
 													 Watermark="添加备注..."
 													 AcceptsReturn="True"
 													 TextWrapping="Wrap"
-													 TextAlignment="Justify"
-													 ToolTip.Tip="备注"
-													 ToolTip.ShowDelay="3"/>
+													 TextAlignment="Justify"/>
 
 											<TextBlock/>
 
