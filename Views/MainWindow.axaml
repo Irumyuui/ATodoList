@@ -113,8 +113,13 @@
 							</MenuItem>
 							<MenuItem Header="复制"
 									  Click="Async_GroupItemList_ContextMenu_CopyMenuItem_CopyGroupName"/>
-							<MenuItem Header="删除"
-									  Click="GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup"/>
+							<MenuItem Click="GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup">
+								<MenuItem.Header>
+									<TextBlock Foreground="Red">
+										删除
+									</TextBlock>
+								</MenuItem.Header>
+							</MenuItem>
 						</ContextMenu>
 					</ListBox.ContextMenu>
 
@@ -177,10 +182,15 @@
 											  Click="Async_CopySelectedYieldTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
 											  ToolTip.ShowDelay="3"/>
-									<MenuItem Header="删除"
-											  Click="RemoveSelectedYieldTodoItemTitle"
+									<MenuItem Click="RemoveSelectedYieldTodoItemTitle"
 											  ToolTip.Tip="删除选中待办事项"
-											  ToolTip.ShowDelay="3"/>
+											  ToolTip.ShowDelay="3">
+										<MenuItem.Header>
+											<TextBlock Foreground="Red">
+												删除
+											</TextBlock>
+										</MenuItem.Header>
+									</MenuItem>
 								</ContextMenu>
 							</ListBox.ContextMenu>
 
