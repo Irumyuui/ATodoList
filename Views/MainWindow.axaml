@@ -178,6 +178,9 @@
 								 Name="YieldFinishTodoItemListBox">
 							<ListBox.ContextMenu>
 								<ContextMenu Name="TodoGroupYieldItems_ContextMenu">
+									<MenuItem Header="_移动至"
+											  ToolTip.Tip="移动所选任务"
+											  PointerEntered="YieldFinishTodoItemList_ContextMenu_MoveItem_PointerEnter"/>
 									<MenuItem Header="复制"
 											  Click="Async_CopySelectedYieldTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
@@ -291,6 +294,10 @@
 								 Name="FinishedTodoItemListBox">
 							<ListBox.ContextMenu>
 								<ContextMenu Name="TodoGroupFinishItems_ContextMenu">
+									<MenuItem Header="_移动至"
+											  ToolTip.Tip="移动所选任务"
+											  PointerEntered="FinishTodoItemList_ContextMenu_MoveItem_PointerEnter"/>
+
 									<MenuItem Header="复制"
 											  Click="Async_CopySelectedFinishTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"

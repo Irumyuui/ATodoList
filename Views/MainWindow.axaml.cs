@@ -12,6 +12,7 @@ using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
 using DynamicData.Aggregation;
+using MongoDB.Driver;
 using ReactiveUI;
 using System;
 using System.Diagnostics;
@@ -310,7 +311,7 @@ namespace ATodoList.Views
             var newItemTitle = textBox.Text;
             textBox.Text = string.Empty;
 
-            if (ViewModel!.AddNewTodoItem(newItemTitle)) {
+            if (ViewModel!.AddNewTodoItemToCurrentGroup(newItemTitle)) {
                 //textBox.BorderBrush = new SolidColorBrush(Colors.Aquamarine);
                 ShowNotification("任务添加成功", NotificationType.Success);
             } else {
@@ -322,6 +323,74 @@ namespace ATodoList.Views
         private void TodoItemList_TreeViewItem_IgnorePressEnter(object sender, KeyEventArgs e) {
             if (e.Key is Key.Enter) {
                 e.Handled = true;
+            }
+        }
+
+        private void YieldFinishTodoItemList_ContextMenu_MoveItem_PointerEnter(object sender, PointerEventArgs e)
+        {
+            if (sender is not MenuItem menuItem)
+                return;
+
+            menuItem.Items.Clear();
+            foreach (var item in ViewModel!.GroupItems) {
+                var subItem = new MenuItem() {
+                    Header = item.Name,
+                };
+                subItem.Click += (object? sender, RoutedEventArgs e) => {
+                    var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
+
+                    bool result = false;
+                    if (listBox?.SelectedItem is TodoItem currentTodoItem && subItem.Header is string groupName) {
+                        result = ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+                        result = ViewModel!.AddNewTodoItemToGroup(groupName,
+                                                                  currentTodoItem.Title,
+                                                                  currentTodoItem.DeadLine,
+                                                                  currentTodoItem.Description,
+                                                                  currentTodoItem.IsFinish);
+                    }
+
+                    if (result) {
+                        ShowNotification($"选中待办事项已经移动至 {subItem.Header}", NotificationType.Success);
+                    } else {
+                        ShowNotification("选中待办事项移动失败", NotificationType.Error);
+                    }
+                };
+
+                menuItem.Items.Add(subItem);
+            }
+        }
+
+        private void FinishTodoItemList_ContextMenu_MoveItem_PointerEnter(object sender, PointerEventArgs e)
+        {
+            if (sender is not MenuItem menuItem)
+                return;
+
+            menuItem.Items.Clear();
+            foreach (var item in ViewModel!.GroupItems) {
+                var subItem = new MenuItem() {
+                    Header = item.Name,
+                };
+                subItem.Click += (object? sender, RoutedEventArgs e) => {
+                    var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
+
+                    bool result = false;
+                    if (listBox?.SelectedItem is TodoItem currentTodoItem && subItem.Header is string groupName) {
+                        result = ViewModel!.RemoveTodoItem(currentTodoItem.ObjectId);
+                        result = ViewModel!.AddNewTodoItemToGroup(groupName,
+                                                                  currentTodoItem.Title,
+                                                                  currentTodoItem.DeadLine,
+                                                                  currentTodoItem.Description,
+                                                                  currentTodoItem.IsFinish);
+                    }
+
+                    if (result) {
+                        ShowNotification($"选中待办事项已经移动至 {subItem.Header}", NotificationType.Success);
+                    } else {
+                        ShowNotification("选中待办事项移动失败", NotificationType.Error);
+                    }
+                };
+
+                menuItem.Items.Add(subItem);
             }
         }
     }

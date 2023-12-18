@@ -152,13 +152,24 @@ namespace ATodoList.ViewModels
             return result;
         }
 
-        public bool AddNewTodoItem(string? newItemTitle)
+        public bool AddNewTodoItemToCurrentGroup(string? newItemTitle)
         {
             if (string.IsNullOrWhiteSpace(newItemTitle)) {
                 return false;
             }
 
             var result = Services.DatabaseService.AddNewTodoItem(SelectedGroupName, newItemTitle.Trim());
+            ReloadTodoItemsFromCurrentSelectedGroup();
+            return result;
+        }
+
+        public bool AddNewTodoItemToGroup(string groupName, string title, DateTime? deadLine = null, string description = "", bool isFinish = false)
+        {
+            if (string.IsNullOrWhiteSpace(title)) {
+                return false;
+            }
+
+            var result = Services.DatabaseService.AddNewTodoItem(groupName, title.Trim(), deadLine, description, isFinish);
             ReloadTodoItemsFromCurrentSelectedGroup();
             return result;
         }
