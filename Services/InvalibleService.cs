@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace ATodoList.Services
 {
+    /// <summary>
+    /// 一个用来代替失效服务的对象
+    /// </summary>
     internal sealed class InvalibleService : IDBHelper
     {
         public bool AddGroup(string groupName) => false;
