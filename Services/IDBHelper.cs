@@ -4,7 +4,7 @@ using System;
 
 namespace ATodoList.Services;
 
-interface IDBHelper
+public interface IDBHelper
 {
     TodoGroupItem[] GetGroupsItems();
 

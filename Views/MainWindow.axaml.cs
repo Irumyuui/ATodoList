@@ -28,7 +28,6 @@ namespace ATodoList.Views
         public MainWindow()
         {
             InitializeComponent();
-            //_manager = new WindowNotificationManager(this) { MaxItems = 3 };
         }
 
         /// <summary>
@@ -400,7 +399,21 @@ namespace ATodoList.Views
         private async void OpenNewSettingsWindowButtonClick(object sender, RoutedEventArgs e)
         {
             var settingsDialog = new SettingsWindow();
+            settingsDialog.ViewModel = new SettingsWindowViewModel();
+
+            (string?, string?) prev = (
+                    (Services.DatabaseService.DB as Services.MongoDBHelper)?.ConnectionString?? null,
+                    (Services.DatabaseService.DB as Services.MongoDBHelper)?.DatabaseName ?? null
+                );
+            
             await settingsDialog.ShowDialog<Unit>(this);
+        
+            if (prev != (
+                    (Services.DatabaseService.DB as Services.MongoDBHelper)?.ConnectionString ?? null,
+                    (Services.DatabaseService.DB as Services.MongoDBHelper)?.DatabaseName ?? null
+                )) {
+                ViewModel!.ResetStatus();
+            }
         }
     }
 

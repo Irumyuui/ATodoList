@@ -21,6 +21,8 @@ namespace ATodoList.ViewModels
 
         private string _selectedGroupName;
 
+        private string _mainTitleName;
+        
         public MainWindowViewModel()
         {
             _groupItems = Services.DatabaseService.LoadTodoGroupItems();
@@ -28,6 +30,23 @@ namespace ATodoList.ViewModels
             _currentTodoGroupYieldFinishItems = [];
             _groupListSelectIndex = -1;
             _selectedGroupName = string.Empty;
+            _mainTitleName = (Services.DatabaseService.DB as Services.MongoDBHelper)?.DatabaseName ?? "A Todo List";
+        }
+
+        public string MainTitleName
+        {
+            get => _mainTitleName;
+            set => this.RaiseAndSetIfChanged(ref _mainTitleName, value);
+        }
+
+        public void ResetStatus()
+        {
+            GroupItems = Services.DatabaseService.LoadTodoGroupItems();
+            CurrentTodoGroupFinishItems = [];
+            CurrentTodoGroupYieldFinishItems = [];
+            GroupListSelectIndex = -1;
+            SelectedGroupName = string.Empty;
+            MainTitleName = (Services.DatabaseService.DB as Services.MongoDBHelper)?.DatabaseName ?? "A Todo List";
         }
 
         public string InputGroupName

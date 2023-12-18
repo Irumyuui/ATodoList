@@ -11,28 +11,97 @@ using System.Threading.Tasks;
 
 namespace ATodoList.Services;
 
-public class MongoDBHelper : IDBHelper
+public sealed class MongoDBHelper : IDBHelper
 {
+    public static bool TrySwitchMongoDBServise(string connectionString, string databaseName, ref MongoDBHelper mongoDBHelper)
+    {
+        if (databaseName == string.Empty)
+            return false;
+
+        if (mongoDBHelper.ConnectionString != connectionString) {
+            try {
+                mongoDBHelper = new MongoDBHelper(connectionString, databaseName);
+            } catch (Exception e) {
+                Debug.WriteLine(e);
+                return false;
+            }
+        }
+
+        if (mongoDBHelper.DatabaseName != databaseName) {
+            try {
+                mongoDBHelper.SwitchDatabase(databaseName);
+            } catch (Exception e) {
+                Debug.WriteLine(e);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static bool TrySwitchMongoDBServise(string connectionString, string databaseName, ref IDBHelper db)
+    {
+        if (db is MongoDBHelper mongoDBHelper) {
+            var result = TrySwitchMongoDBServise(connectionString, databaseName, ref mongoDBHelper);
+            db = mongoDBHelper;
+            return result;
+        } else {
+            return TryGetMongoDBHelper(connectionString, databaseName, out db);
+        }
+    }
+
+    public static bool TryGetMongoDBHelper(string connectionString, string databaseName, out IDBHelper db)
+    {
+        try {
+            db = new MongoDBHelper(connectionString, databaseName);
+        } catch (Exception e) {
+            Debug.WriteLine(e);
+            db = InvalibleService.Disable;
+            return false;
+        }
+
+        return true;
+    }
+
+    private void SwitchDatabase(string databaseName)
+    {
+        DatabaseName = databaseName;
+        _database = _client.GetDatabase(databaseName);
+    }
+
     private readonly string _connectionString;
     
-    private readonly string _databaseName;
+    private string _databaseName;
 
     private readonly IMongoClient _client;
 
-    private readonly IMongoDatabase _database;
+    private IMongoDatabase _database;
 
     public MongoDBHelper(string connectionString, string databaseName)
     {
+        //if (!connectionString.StartsWith("mongodb://")) {
+        //    connectionString = "mongodb://" + connectionString;
+        //}
+
         _connectionString = connectionString;
         _databaseName = databaseName;
 
-        _client = new MongoClient(connectionString);
+
+        MongoUrl url = new MongoUrl("mongodb://" + connectionString);
+        MongoClientSettings settings = MongoClientSettings.FromUrl(url);
+        settings.ServerSelectionTimeout = new TimeSpan(0, 0, 3);
+        _client = new MongoClient(settings);
+        _client.ListDatabaseNames();
         _database = _client.GetDatabase(databaseName);
     }
 
     private IMongoClient Client { get => _client; }
 
     private IMongoDatabase Database { get => _database; }
+    
+    public string DatabaseName { get => _databaseName; private set => _databaseName = value; }
+
+    public string ConnectionString => _connectionString;
 
     public TodoGroupItem[] GetGroupsItems()
     {
