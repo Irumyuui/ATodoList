@@ -298,7 +298,13 @@
 									<MenuItem Header="删除"
 											  Click="RemoveSelectedFinishTodoItemTitle"
 											  ToolTip.Tip="删除选中待办事项"
-											  ToolTip.ShowDelay="3"/>
+											  ToolTip.ShowDelay="3">
+										<MenuItem.Header>
+											<TextBlock Foreground="Red">
+												删除
+											</TextBlock>
+										</MenuItem.Header>
+									</MenuItem>
 								</ContextMenu>
 							</ListBox.ContextMenu>
 
