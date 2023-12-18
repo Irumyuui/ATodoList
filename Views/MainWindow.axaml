@@ -61,8 +61,8 @@
 				<ExperimentalAcrylicMaterial
                     BackgroundSource="Digger"
                     TintColor="Black"
-                    TintOpacity="0.9"
-                    MaterialOpacity="0.75" />
+                    TintOpacity="0.85"
+                    MaterialOpacity="0.65" />
 			</ExperimentalAcrylicBorder.Material>
 		</ExperimentalAcrylicBorder>
 
@@ -72,12 +72,38 @@
 			<DockPanel Grid.Column="0"
                        Margin="30">
 				<!-- 显示信息 -->
-				<StackPanel DockPanel.Dock="Top"
-                            Margin="0 5">
+				<DockPanel DockPanel.Dock="Top"
+						   HorizontalAlignment="Center"
+						   VerticalAlignment="Center"
+                           Margin="0 5">
+					<!--
 					<TextBlock HorizontalAlignment="Center">
                         <PathIcon Data="{StaticResource preview_link_regular}"/> ATodoList
                     </TextBlock>
-				</StackPanel>
+					-->
+					<StackPanel Orientation="Horizontal">
+						<Grid ColumnDefinitions="34, Auto, Auto"
+							  RowDefinitions="34">
+							<Button Grid.Column="0"
+									Grid.Row="0"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									ToolTip.Tip="打开设置对话框"
+									Click="OpenNewSettingsWindowButtonClick">
+								<PathIcon Data="{StaticResource preview_link_regular}"/>
+							</Button>
+							
+							 <Rectangle Grid.Column="1"
+										Width="1"
+										Fill="Gray"
+										Margin="4"/>
+							 <TextBlock Grid.Column="2"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										Text="ATodoList"/>
+						</Grid>
+					</StackPanel>
+				</DockPanel>
 
 				<!-- 添加集合 -->
 				<Grid DockPanel.Dock="Bottom"

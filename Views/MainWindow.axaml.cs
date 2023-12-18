@@ -1,6 +1,11 @@
+using System;
+using System.Diagnostics;
+using System.Globalization;
+using System.Reactive;
+using System.Threading.Tasks;
+
 using ATodoList.Models;
 using ATodoList.ViewModels;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Notifications;
 using Avalonia.Controls.Primitives;
@@ -8,18 +13,8 @@ using Avalonia.Data;
 using Avalonia.Data.Converters;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.ReactiveUI;
 using Avalonia.VisualTree;
-using DynamicData.Aggregation;
-using MongoDB.Driver;
-using ReactiveUI;
-using System;
-using System.Diagnostics;
-using System.Globalization;
-using System.Threading.Tasks;
-using System.Threading.Tasks.Sources;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ATodoList.Views
 {
@@ -58,7 +53,7 @@ namespace ATodoList.Views
         /// <param name="type">消息类型</param>
         private void ShowNotification(string? title, string? message, NotificationType type)
         {
-            _manager?.Show(new Notification(title, message, type));
+            _manager?.Show(new Avalonia.Controls.Notifications.Notification(title, message, type));
         }
 
         private void ShowNotification(string? message, NotificationType type) => ShowNotification(type.ToString(), message, type);
@@ -400,6 +395,12 @@ namespace ATodoList.Views
 
                 menuItem.Items.Add(subItem);
             }
+        }
+
+        private async void OpenNewSettingsWindowButtonClick(object sender, RoutedEventArgs e)
+        {
+            var settingsDialog = new SettingsWindow();
+            await settingsDialog.ShowDialog<Unit>(this);
         }
     }
 
