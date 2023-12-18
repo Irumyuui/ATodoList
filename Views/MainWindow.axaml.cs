@@ -333,6 +333,10 @@ namespace ATodoList.Views
 
             menuItem.Items.Clear();
             foreach (var item in ViewModel!.GroupItems) {
+                if (item.Name == ViewModel!.SelectedGroupName) {
+                    continue;
+                }
+
                 var subItem = new MenuItem() {
                     Header = item.Name,
                 };
@@ -367,6 +371,10 @@ namespace ATodoList.Views
 
             menuItem.Items.Clear();
             foreach (var item in ViewModel!.GroupItems) {
+                if (item.Name == ViewModel!.SelectedGroupName) {
+                    continue;
+                }
+
                 var subItem = new MenuItem() {
                     Header = item.Name,
                 };
