@@ -21,7 +21,7 @@
 	<Design.DataContext>
 		<vm:SettingsWindowViewModel/>
 	</Design.DataContext>
-	
+
 	<Panel>
 		<ExperimentalAcrylicBorder IsHitTestVisible="False">
 			<ExperimentalAcrylicBorder.Material>
@@ -57,13 +57,13 @@
 										   Classes="H1"
 										   Theme="{StaticResource TitleTextBlock}"/>
 							</HeaderedContentControl.Header>
-							
+
 							<DockPanel>
-								
+
 								<Grid DockPanel.Dock="Top"
 									  ColumnDefinitions="Auto, *"
 									  RowDefinitions="*, *, *">
-								
+
 									<Grid.Styles>
 										<Style Selector="Label">
 											<Setter Property="Margin" Value="4 4" />
@@ -74,33 +74,33 @@
 											<Setter Property="Margin" Value="5 4"/>
 										</Style>
 									</Grid.Styles>
-								
+
 									<Label Grid.Row="0"
 										   Grid.Column="0"
 										   Classes="Secondary">
 										MongoDB Host
 									</Label>
-								
+
 									<TextBox Grid.Row="0"
 											 Grid.Column="1"
 											 Name="MongoDBHostTextBox"
 											 Text="{Binding ConnectionString}"
 											 InnerLeftContent="mongodb://"
 											 Watermark="127.0.0.1:27017"/>
-								
+
 									<Label Grid.Row="1"
 										   Grid.Column="0"
 										   Classes="Secondary">
 										Database Name
 									</Label>
-								
+
 									<TextBox Grid.Row="1"
 											 Grid.Column="1"
 											 Name="DatabaseTextBox"
 											 Text="{Binding DatabaseName}"
 											 Watermark="ATodoList"/>
 								</Grid>
-								
+
 								<Button DockPanel.Dock="Bottom"
 									    HorizontalAlignment="Right"
 										VerticalAlignment="Center"
@@ -108,9 +108,9 @@
 									确认
 								</Button>
 							</DockPanel>
-							
+
 						</HeaderedContentControl>
-						
+
 					</DockPanel>
 				</ScrollViewer>
 			</TabItem>
@@ -134,14 +134,101 @@
 							</HeaderedContentControl.Header>
 							<StackPanel>
 								<Image Source="/Assets/avalonia-logo.ico"
-									   MaxHeight="200"
-									   MaxWidth="200">
-									
+									   MaxHeight="150"
+									   MaxWidth="150">
+
 								</Image>
 								<TextBlock>
-									一个基于 Avalonia 的个人 TodoList 。
+									一个基于 Avalonia 的个人使用向 TodoList ，使用 MongoDB 存储您的待办清单。
 								</TextBlock>
 							</StackPanel>
+						</HeaderedContentControl>
+					</DockPanel>
+				</ScrollViewer>
+			</TabItem>
+
+			<TabItem Header="LICENSE">
+				<ScrollViewer HorizontalScrollBarVisibility="Disabled"
+							  VerticalScrollBarVisibility="Auto">
+					<DockPanel>
+						<HeaderedContentControl Margin="16"
+												Theme="{DynamicResource GroupBox}"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch">
+							<HeaderedContentControl.Header>
+								<TextBlock Text="License"
+										   Classes="H1"
+										   Theme="{StaticResource TitleTextBlock}"/>
+							</HeaderedContentControl.Header>
+							<TabControl>
+								
+								<TabItem Header="EN">
+									<StackPanel>
+										<StackPanel.Styles>
+											<Style Selector="TextBlock">
+												<Setter Property="Margin" Value="0 4"/>
+												<Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
+											</Style>
+										</StackPanel.Styles>
+										
+										<TextBlock>
+											MIT License
+										</TextBlock>
+										<TextBlock>
+											Copyright (c) 2023 中宮 ちひろ
+										</TextBlock>
+										<TextBlock>
+											Permission is hereby granted, free of charge, to any person obtaining a copy
+											of this software and associated documentation files (the "Software"), to deal
+											in the Software without restriction, including without limitation the rights
+											to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+											copies of the Software, and to permit persons to whom the Software is
+											furnished to do so, subject to the following conditions:
+										</TextBlock>
+										<TextBlock>
+											The above copyright notice and this permission notice shall be included in all
+											copies or substantial portions of the Software.
+										</TextBlock>
+										<TextBlock FontWeight="Bold">
+											THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+											IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+											FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+											AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+											LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+											OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+											SOFTWARE.
+										</TextBlock>
+									</StackPanel>
+								</TabItem>
+								
+								<TabItem Header="ZH_CN">
+									<StackPanel>
+										<StackPanel.Styles>
+											<Style Selector="TextBlock">
+												<Setter Property="Margin" Value="0 4"/>
+												<Setter Property="TextWrapping" Value="WrapWithOverflow"></Setter>
+											</Style>
+										</StackPanel.Styles>
+										
+										<TextBlock>
+											MIT License
+										</TextBlock>
+										<TextBlock>
+											Copyright (c) 2023 中宮 ちひろ
+										</TextBlock>
+										<TextBlock>
+											特此免费允许任何获得本软件及相关文档文件（以下简称 "软件"）副本的人 软件及相关文档文件（以下简称 "软件"）的任何人，均可在不受限制的情况下使用本软件。不受限制地处理本软件，包括但不限于以下权利 使用、复制、修改、合并、出版、分发、再许可和/或出售本软件的副本，以及允许他人使用、复制、修改、合并、出版、分发、再许可和/或出售本软件的副本。或出售软件副本的权利，并允许获得本软件的人 并允许获得本软件的人这样做，但须符合以下条件：
+										</TextBlock>
+										<TextBlock>
+											上述版权声明和本许可声明应包含在本软件的所有副本或实质部分中。
+										</TextBlock>
+										<TextBlock FontWeight="Bold">
+											本软件按 "原样 "提供，不作任何明示或暗示的保证，包括但不限于适销性、特定用途适用性和非侵权保证。在任何情况下，作者或版权所有者均不对因本软件或本软件的使用或其他交易而产生、引起或与之相关的任何索赔、损害赔偿或其他责任承担责任，无论是合同诉讼、侵权诉讼还是其他诉讼。
+										</TextBlock>
+									</StackPanel>
+								</TabItem>
+							
+							</TabControl>
 						</HeaderedContentControl>
 					</DockPanel>
 				</ScrollViewer>
