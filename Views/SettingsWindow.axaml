@@ -120,7 +120,7 @@
 					关于
 				</TabItem.Header>
 
-				<ScrollViewer HorizontalScrollBarVisibility="Auto"
+				<ScrollViewer HorizontalScrollBarVisibility="Disabled"
 							  VerticalScrollBarVisibility="Auto">
 					<DockPanel>
 						<HeaderedContentControl Margin="16"
@@ -132,14 +132,34 @@
 										   Classes="H1"
 										   Theme="{StaticResource TitleTextBlock}"/>
 							</HeaderedContentControl.Header>
-							<StackPanel>
+							<StackPanel Spacing="5">
+								<StackPanel.Styles>
+									<Style Selector="TextBlock">
+										<Setter Property="TextWrapping" Value="Wrap"/>
+									</Style>
+								</StackPanel.Styles>
 								<Image Source="/Assets/avalonia-logo.ico"
 									   MaxHeight="150"
 									   MaxWidth="150">
-
 								</Image>
 								<TextBlock>
-									一个基于 Avalonia 的个人使用向 TodoList ，使用 MongoDB 存储您的待办清单。
+									一个使用 Avalonia 实现的个人使用向跨平台 TodoList，支持 windows（至少为windows 10）、linux、MacOS。
+								</TextBlock>
+								<TextBlock>
+									前端使用 Avalonia 实现，后端使用 MongoDB 存储待办事项。
+								</TextBlock>
+								<TextBlock>
+									如何构建
+								</TextBlock>
+
+								<TextBlock>
+									$ git clone https://github.com/ChirunoC9/ATodoList.git
+								</TextBlock>
+								<TextBlock>
+									$ cd ATodoList
+								</TextBlock>
+								<TextBlock>
+									$ dotnet publish
 								</TextBlock>
 							</StackPanel>
 						</HeaderedContentControl>
