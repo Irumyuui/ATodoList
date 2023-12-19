@@ -28,13 +28,29 @@ public partial class SettingsWindow : ReactiveWindow<SettingsWindowViewModel>
         };
     }
 
+    /// <summary>
+    /// 提示消息
+    /// </summary>
+    /// <param name="title">消息标题</param>
+    /// <param name="message">消息内容</param>
+    /// <param name="type">消息类型</param>
     private void ShowNotification(string? title, string? message, NotificationType type)
     {
         _manager?.Show(new Avalonia.Controls.Notifications.Notification(title, message, type));
     }
 
+    /// <summary>
+    /// 提示消息，消息标题由消息类型确定
+    /// </summary>
+    /// <param name="message">消息标题</param>
+    /// <param name="type">消息类型</param>
     private void ShowNotification(string? message, NotificationType type) => ShowNotification(type.ToString(), message, type);
 
+    /// <summary>
+    /// 提交database设置，没有填写则设置为默认host: 127.0.0.1:27017和database name: ATodoList
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void CommitSetDatabase(object sender, RoutedEventArgs e)
     {
         var host = string.IsNullOrWhiteSpace(MongoDBHostTextBox.Text) ? "127.0.0.1:27017" : MongoDBHostTextBox.Text;

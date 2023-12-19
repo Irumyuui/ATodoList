@@ -55,8 +55,18 @@ namespace ATodoList.Views
             _manager?.Show(new Avalonia.Controls.Notifications.Notification(title, message, type));
         }
 
+        /// <summary>
+        /// 提示消息，消息标题由消息类型确定
+        /// </summary>
+        /// <param name="message">消息标题</param>
+        /// <param name="type">消息类型</param>
         private void ShowNotification(string? message, NotificationType type) => ShowNotification(type.ToString(), message, type);
 
+        /// <summary>
+        /// 绑定组名切换事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GroupItemList_SelectionChanged(object? sender, SelectionChangedEventArgs e)
         {
             var selectGroupName = ((sender as ListBox)?.SelectedItem as TodoGroupItem)?.Name ?? string.Empty;
@@ -65,6 +75,11 @@ namespace ATodoList.Views
             ViewModel!.ReloadTodoItemsFromCurrentSelectedGroup();
         }
 
+        /// <summary>
+        /// 异步复制当前选中的组名事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public async void Async_GroupItemList_ContextMenu_CopyMenuItem_CopyGroupName(object sender, RoutedEventArgs e)
         {
             var selectGroupName = ViewModel!.SelectedGroupName;
@@ -72,6 +87,11 @@ namespace ATodoList.Views
             ShowNotification("待办事项组名已复制", NotificationType.Information);
         }
 
+        /// <summary>
+        /// 异步将字符串输入至系统剪贴板
+        /// </summary>
+        /// <param name="text">期望复制的内容</param>
+        /// <returns></returns>
         private async Task AsyncSendTextToSystemClipboard(string text)
         {
             var clipboard = Clipboard;
@@ -80,6 +100,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 异步复制选中未完成待办事项的标题事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Async_CopySelectedYieldTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
@@ -90,6 +115,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 移除选中的未完成待办事项事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveSelectedYieldTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("YieldFinishTodoItemListBox");
@@ -107,6 +137,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 异步复制选中已完成的待办事项标题事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Async_CopySelectedFinishTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
@@ -117,6 +152,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 移除选中已完成的待办事项事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RemoveSelectedFinishTodoItemTitle(object sender, RoutedEventArgs e)
         {
             var listBox = this.FindControl<ListBox>("FinishedTodoItemListBox");
@@ -134,6 +174,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 删除当前选中的组事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup(object sender, RoutedEventArgs e)
         {
             if (ViewModel!.RemoveSelectedGroup(ViewModel!.SelectedGroupName)) {
@@ -143,6 +188,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 侦测添加组输入框文本变动事件，当文本框内有内容时启用提交按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InputGroupTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (sender is not TextBox t)
@@ -155,6 +205,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 添加待办事项组回车提交事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void InputGroupNameTextBox_OnEnterKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key is not Key.Enter) {
@@ -173,6 +228,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 添加待办事项组提交按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CommitGroupNmaeButton_CommitClick(object sender, RoutedEventArgs e)
         {
             var result = InputGroupNameTextBox?.Text?.Trim();
@@ -187,6 +247,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 侦测待办事项下拉框展开事件，当待办事项下拉框展开时，将所选的待办事项设置为选中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoItemListBox_Expander_Expanded(object sender, RoutedEventArgs e)
         {
             if (sender is not Expander expander)
@@ -198,18 +263,23 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 添加待办事项回车提交事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GroupItemList_ContextMenu_TextBoxKeyDown_EnterSubmit(object sender, KeyEventArgs e)
         {
             if (sender is not TextBox textBox) {
                 return;
             }
 
-            Debug.WriteLine($"{e.Key} {e.KeyModifiers}");
+            //Debug.WriteLine($"{e.Key} {e.KeyModifiers}");
             if (e.Key is not Key.Enter) {
                 return;
             }
                 
-            Debug.WriteLine("Submit");
+            //Debug.WriteLine("Submit");
 
             var newName = textBox.Text?.Trim();
             if (string.IsNullOrEmpty(newName) ) {
@@ -224,7 +294,7 @@ namespace ATodoList.Views
             if (parent is null)
                 return;
 
-            Debug.WriteLine("GroupItemList > ContextMenu");
+            //Debug.WriteLine("GroupItemList > ContextMenu");
 
             if (ViewModel!.RenameSelectedGroupName(newName)) {
                 ShowNotification("待办事项组名已更改", NotificationType.Success);
@@ -233,6 +303,11 @@ namespace ATodoList.Views
             }
         }
     
+        /// <summary>
+        /// 切换待办事项完成状态事件
+        /// </summary>
+        /// <param name="sender">待办事项的CheckBox</param>
+        /// <param name="e"></param>
         private void TodoGroupItems_SwitchTodoItemFinishStatus(object sender, RoutedEventArgs e)
         {
             // YieldFinishTodoItemListBox
@@ -250,6 +325,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 提交待办事项的修改事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoItemList_CommitTodoItemInfo(object sender, RoutedEventArgs e)
         {
             if (sender is not Button button)
@@ -294,6 +374,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 回车添加待办事项事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddTodoItemList_InputTextBox_PressEnterCommit(object sender, KeyEventArgs e)
         {
             if (e.Key is not Key.Enter)
@@ -314,12 +399,22 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// TreeViewItem忽略回车
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoItemList_TreeViewItem_IgnorePressEnter(object sender, KeyEventArgs e) {
             if (e.Key is Key.Enter) {
                 e.Handled = true;
             }
         }
 
+        /// <summary>
+        /// 移动未完成事项到其他组事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void YieldFinishTodoItemList_ContextMenu_MoveItem_PointerEnter(object sender, PointerEventArgs e)
         {
             if (sender is not MenuItem menuItem)
@@ -358,6 +453,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 移动已完成事项到其他组事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void FinishTodoItemList_ContextMenu_MoveItem_PointerEnter(object sender, PointerEventArgs e)
         {
             if (sender is not MenuItem menuItem)
@@ -396,6 +496,11 @@ namespace ATodoList.Views
             }
         }
 
+        /// <summary>
+        /// 打开设置对话框事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void OpenNewSettingsWindowButtonClick(object sender, RoutedEventArgs e)
         {
             var settingsDialog = new SettingsWindow();
