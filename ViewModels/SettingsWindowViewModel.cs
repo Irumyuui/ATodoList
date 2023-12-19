@@ -36,6 +36,12 @@ public class SettingsWindowViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// 切换连接的数据库
+    /// </summary>
+    /// <param name="host"></param>
+    /// <param name="db"></param>
+    /// <returns></returns>
     public bool SwitchDatabase(string host, string db)
     {
         return Services.DatabaseService.TrySetMongoDBService(host, db);
