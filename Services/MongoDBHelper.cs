@@ -130,6 +130,7 @@ public sealed class MongoDBHelper : IDBHelper
         _client = new MongoClient(settings);
         _client.ListDatabaseNames();
         _database = _client.GetDatabase(databaseName);
+        _database.ListCollectionNames();
     }
 
     /// <summary>
