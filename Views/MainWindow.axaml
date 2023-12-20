@@ -73,7 +73,7 @@
                        Margin="30">
 				<!-- 显示信息 -->
 				<DockPanel DockPanel.Dock="Top"
-						   HorizontalAlignment="Center"
+						   HorizontalAlignment="Left"
 						   VerticalAlignment="Center"
                            Margin="0 5">
 					<!--
@@ -90,7 +90,7 @@
 									VerticalAlignment="Center"
 									ToolTip.Tip="打开设置对话框"
 									Click="OpenNewSettingsWindowButtonClick">
-								<PathIcon Data="{StaticResource preview_link_regular}"/>
+								<PathIcon Data="{StaticResource launcher_settings_regular}"/>
 							</Button>
 							
 							 <Rectangle Grid.Column="1"
@@ -161,8 +161,12 @@
 
 					<ListBox.ItemTemplate>
 						<DataTemplate x:DataType="modles:TodoGroupItem">
-							<StackPanel HorizontalAlignment="Center"
-										Orientation="Horizontal">
+							<StackPanel Margin="0 5"
+										HorizontalAlignment="Left"
+										Orientation="Horizontal"
+										Spacing="5">
+								<PathIcon Data="{StaticResource text_first_line_regular}"
+										  Foreground="Gray"/>
 								<TextBlock Text="{Binding Name}"/>
 							</StackPanel>
 						</DataTemplate>
