@@ -116,7 +116,7 @@
 						    Click="CommitGroupNmaeButton_CommitClick"
 						    x:Name="CommitGroupNameButton"
 							ToolTip.Tip="提交待办事项组">
-						<PathIcon Data="{StaticResource arrow_curve_up_right_regular}"
+						<PathIcon Data="{StaticResource task_list_add_regular}"
 								  Foreground="Red"/>
 					</RepeatButton>
 					<TextBox Grid.Column="1"
@@ -139,7 +139,7 @@
 						<ContextMenu Name="GroupItemList_ContextMenu">
 							<MenuItem Header="重命名">
 								<MenuItem.Icon>
-									<TextBlock>😊</TextBlock>
+									<PathIcon Data="{StaticResource rename_regular}"/>
 								</MenuItem.Icon>
 								<TextBox HorizontalAlignment="Stretch"
 										 Watermark="新名字"
@@ -148,13 +148,21 @@
 										 Width="100"/>
 							</MenuItem>
 							<MenuItem Header="复制"
-									  Click="Async_GroupItemList_ContextMenu_CopyMenuItem_CopyGroupName"/>
+									  Click="Async_GroupItemList_ContextMenu_CopyMenuItem_CopyGroupName">
+								<MenuItem.Icon>
+									<PathIcon Data="{StaticResource copy_regular}"/>
+								</MenuItem.Icon>
+							</MenuItem>
 							<MenuItem Click="GroupItemList_ContextMenu_RemoveMeunItem_RemoveSelectedGroup">
 								<MenuItem.Header>
 									<TextBlock Foreground="Red">
 										删除
 									</TextBlock>
 								</MenuItem.Header>
+								<MenuItem.Icon>
+									<PathIcon Data="{StaticResource delete_regular}"
+											  Foreground="Red"/>
+								</MenuItem.Icon>
 							</MenuItem>
 						</ContextMenu>
 					</ListBox.ContextMenu>
@@ -220,14 +228,26 @@
 								<ContextMenu Name="TodoGroupYieldItems_ContextMenu">
 									<MenuItem Header="_移动至"
 											  ToolTip.Tip="移动所选任务"
-											  PointerEntered="YieldFinishTodoItemList_ContextMenu_MoveItem_PointerEnter"/>
+											  PointerEntered="YieldFinishTodoItemList_ContextMenu_MoveItem_PointerEnter">
+										<MenuItem.Icon>
+											<PathIcon Data="{StaticResource text_add_space_before_regular}"/>
+										</MenuItem.Icon>
+									</MenuItem>
 									<MenuItem Header="复制"
 											  Click="Async_CopySelectedYieldTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
-											  ToolTip.ShowDelay="3"/>
+											  ToolTip.ShowDelay="3">
+									<MenuItem.Icon>
+										<PathIcon Data="{StaticResource copy_regular}"/>
+									</MenuItem.Icon>
+									</MenuItem>
 									<MenuItem Click="RemoveSelectedYieldTodoItemTitle"
 											  ToolTip.Tip="删除选中待办事项"
 											  ToolTip.ShowDelay="3">
+										<MenuItem.Icon>
+											<PathIcon Data="{StaticResource delete_regular}"
+													  Foreground="Red"/>
+										</MenuItem.Icon>
 										<MenuItem.Header>
 											<TextBlock Foreground="Red">
 												删除
@@ -330,16 +350,28 @@
 								<ContextMenu Name="TodoGroupFinishItems_ContextMenu">
 									<MenuItem Header="_移动至"
 											  ToolTip.Tip="移动所选任务"
-											  PointerEntered="FinishTodoItemList_ContextMenu_MoveItem_PointerEnter"/>
+											  PointerEntered="FinishTodoItemList_ContextMenu_MoveItem_PointerEnter">
+										<MenuItem.Icon>
+											<PathIcon Data="{StaticResource text_add_space_before_regular}"/>
+										</MenuItem.Icon>
+									</MenuItem>
 
 									<MenuItem Header="复制"
 											  Click="Async_CopySelectedFinishTodoItemTitle"
 											  ToolTip.Tip="复制选中待办事项标题"
-											  ToolTip.ShowDelay="3"/>
+											  ToolTip.ShowDelay="3">
+									<MenuItem.Icon>
+										<PathIcon Data="{StaticResource copy_regular}"/>
+									</MenuItem.Icon>
+									</MenuItem>
 									<MenuItem Header="删除"
 											  Click="RemoveSelectedFinishTodoItemTitle"
 											  ToolTip.Tip="删除选中待办事项"
 											  ToolTip.ShowDelay="3">
+										<MenuItem.Icon>
+											<PathIcon Data="{StaticResource delete_regular}"
+													  Foreground="Red"/>
+										</MenuItem.Icon>
 										<MenuItem.Header>
 											<TextBlock Foreground="Red">
 												删除
