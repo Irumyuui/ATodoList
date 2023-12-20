@@ -96,7 +96,7 @@
 							 <Rectangle Grid.Column="1"
 										Width="1"
 										Fill="Gray"
-										Margin="4"/>
+										Margin="10 4"/>
 							 <TextBlock Grid.Column="2"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
@@ -196,9 +196,18 @@
 				<!-- 组标题 -->
 				<StackPanel DockPanel.Dock="Top"
 							Spacing="10">
-					<TextBlock Text="{Binding SelectedGroupName}"
-							   FontSize="24"
-				               Foreground="Aquamarine"/>
+					<StackPanel Orientation="Horizontal"
+								Spacing="5"
+								Margin="0 2">
+						<PathIcon Data="{StaticResource class_regular}"
+								  HorizontalAlignment="Center"
+								  VerticalAlignment="Center"/>
+						<TextBlock Text="{Binding SelectedGroupName}"
+								   FontSize="24"
+								   Foreground="Aquamarine"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"/>
+					</StackPanel>
 					<TabControl/>
 				</StackPanel>
 
@@ -216,7 +225,11 @@
 					<!-- 未完成组 -->
 					<TreeViewItem IsExpanded="True">
 						<TreeViewItem.Header>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal"
+										Spacing="2">
+								<PathIcon Data="{StaticResource timer_regular}"
+										  Foreground="Gray"
+										  Margin="5 0"/>
 								<TextBlock Text="未完成："/>
 								<TextBlock Text="{Binding CurrentTodoGroupYieldFinishItems.Length}"/>
 							</StackPanel>
@@ -325,7 +338,14 @@
 													Classes="Success"
 													Theme="{DynamicResource SolidButton}"
 													Click="TodoItemList_CommitTodoItemInfo">
-												提交
+												<StackPanel Orientation="Horizontal"
+															Spacing="5">
+													<PathIcon Data="{StaticResource edit_settings_regular}"
+															  Foreground="Gray"/>
+													<TextBlock>
+														提交
+													</TextBlock>
+												</StackPanel>
 											</Button>
 										</Grid>
 
@@ -338,7 +358,11 @@
 					<!-- 已完成组 -->
 					<TreeViewItem>
 						<TreeViewItem.Header>
-							<StackPanel Orientation="Horizontal">
+							<StackPanel Orientation="Horizontal"
+										Spacing="2">
+								<PathIcon Data="{StaticResource checkmark_regular}"
+										  Foreground="Gray"
+										  Margin="5 0"/>
 								<TextBlock>已完成：</TextBlock>
 								<TextBlock Text="{Binding CurrentTodoGroupFinishItems.Length}"/>
 							</StackPanel>
@@ -440,7 +464,14 @@
 													Classes="Success"
 													Theme="{DynamicResource SolidButton}"
 													Click="TodoItemList_CommitTodoItemInfo">
-												提交
+												<StackPanel Orientation="Horizontal"
+															Spacing="5">
+													<PathIcon Data="{StaticResource edit_settings_regular}"
+															  Foreground="Gray"/>
+													<TextBlock>
+														提交
+													</TextBlock>
+												</StackPanel>
 											</Button>
 										</Grid>
 

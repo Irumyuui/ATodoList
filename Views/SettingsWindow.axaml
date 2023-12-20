@@ -43,7 +43,13 @@
 
 			<TabItem>
 				<TabItem.Header>
-					MongoDB 设置
+					<StackPanel Orientation="Horizontal"
+								Spacing="5">
+						<PathIcon Data="{StaticResource connector_regular}"/>
+						<TextBlock>
+							MongoDB 设置
+						</TextBlock>
+					</StackPanel>
 				</TabItem.Header>
 				<ScrollViewer HorizontalScrollBarVisibility="Auto"
 							  VerticalScrollBarVisibility="Auto">
@@ -106,7 +112,14 @@
 									    HorizontalAlignment="Right"
 										VerticalAlignment="Center"
 										Click="CommitSetDatabase">
-									确认
+									<StackPanel Orientation="Horizontal"
+												Spacing="5">
+										<PathIcon Data="{StaticResource edit_settings_regular}"
+													Foreground="Gray"/>
+										<TextBlock>
+											提交
+										</TextBlock>
+									</StackPanel>
 								</Button>
 							</DockPanel>
 
@@ -118,7 +131,13 @@
 
 			<TabItem>
 				<TabItem.Header>
-					关于
+					<StackPanel Orientation="Horizontal"
+								Spacing="5">
+						<PathIcon Data="{StaticResource document_one_page_regular}"/>
+						<TextBlock>
+							关于
+						</TextBlock>
+					</StackPanel>
 				</TabItem.Header>
 
 				<ScrollViewer HorizontalScrollBarVisibility="Disabled"
@@ -168,7 +187,16 @@
 				</ScrollViewer>
 			</TabItem>
 
-			<TabItem Header="LICENSE">
+			<TabItem>
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal"
+						Spacing="5">
+						<PathIcon Data="{StaticResource document_one_page_regular}"/>
+						<TextBlock>
+							LICENSE
+						</TextBlock>
+					</StackPanel>
+				</TabItem.Header>
 				<ScrollViewer HorizontalScrollBarVisibility="Disabled"
 							  VerticalScrollBarVisibility="Auto">
 					<DockPanel>
